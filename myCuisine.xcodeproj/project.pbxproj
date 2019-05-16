@@ -7,15 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09D2ECA7E92F1D36A689BCF7 /* Pods_myCuisine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03840BD1B6B2386B5698B848 /* Pods_myCuisine.framework */; };
 		3E13BD26228D077700A09F8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD25228D077700A09F8A /* AppDelegate.swift */; };
 		3E13BD28228D077700A09F8A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD27228D077700A09F8A /* FirstViewController.swift */; };
 		3E13BD2A228D077700A09F8A /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD29228D077700A09F8A /* SecondViewController.swift */; };
 		3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD2B228D077700A09F8A /* Main.storyboard */; };
 		3E13BD2F228D077800A09F8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD2E228D077800A09F8A /* Assets.xcassets */; };
 		3E13BD32228D077800A09F8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD30228D077800A09F8A /* LaunchScreen.storyboard */; };
+		3E13BD3A228D09B900A09F8A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD39228D09B900A09F8A /* GoogleService-Info.plist */; };
+		3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */; };
+		3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD40228D11B100A09F8A /* SignUpViewController.swift */; };
+		3E13BD43228D11BD00A09F8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD42228D11BD00A09F8A /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03840BD1B6B2386B5698B848 /* Pods_myCuisine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_myCuisine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E13BD22228D077700A09F8A /* myCuisine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myCuisine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E13BD25228D077700A09F8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E13BD27228D077700A09F8A /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +30,12 @@
 		3E13BD2E228D077800A09F8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E13BD31228D077800A09F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E13BD33228D077800A09F8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3E13BD39228D09B900A09F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
+		3E13BD40228D11B100A09F8A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		3E13BD42228D11BD00A09F8A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B538CF8A8D2ECB3A4D8FC3BA /* Pods-myCuisine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myCuisine.debug.xcconfig"; path = "Target Support Files/Pods-myCuisine/Pods-myCuisine.debug.xcconfig"; sourceTree = "<group>"; };
+		BF190A551438BEE6B70999AC /* Pods-myCuisine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myCuisine.release.xcconfig"; path = "Target Support Files/Pods-myCuisine/Pods-myCuisine.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +43,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09D2ECA7E92F1D36A689BCF7 /* Pods_myCuisine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		086E338FB39174BF7F7E88FF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B538CF8A8D2ECB3A4D8FC3BA /* Pods-myCuisine.debug.xcconfig */,
+				BF190A551438BEE6B70999AC /* Pods-myCuisine.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		3E13BD19228D077700A09F8A = {
 			isa = PBXGroup;
 			children = (
 				3E13BD24228D077700A09F8A /* myCuisine */,
 				3E13BD23228D077700A09F8A /* Products */,
+				086E338FB39174BF7F7E88FF /* Pods */,
+				98EDBB3C6CD4271591E5888A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +80,51 @@
 		3E13BD24228D077700A09F8A /* myCuisine */ = {
 			isa = PBXGroup;
 			children = (
+				3E13BD3B228D0F2F00A09F8A /* Model */,
+				3E13BD3C228D0F3400A09F8A /* View */,
+				3E13BD3D228D0F3700A09F8A /* Controller */,
 				3E13BD25228D077700A09F8A /* AppDelegate.swift */,
-				3E13BD27228D077700A09F8A /* FirstViewController.swift */,
-				3E13BD29228D077700A09F8A /* SecondViewController.swift */,
-				3E13BD2B228D077700A09F8A /* Main.storyboard */,
 				3E13BD2E228D077800A09F8A /* Assets.xcassets */,
 				3E13BD30228D077800A09F8A /* LaunchScreen.storyboard */,
 				3E13BD33228D077800A09F8A /* Info.plist */,
+				3E13BD39228D09B900A09F8A /* GoogleService-Info.plist */,
 			);
 			path = myCuisine;
+			sourceTree = "<group>";
+		};
+		3E13BD3B228D0F2F00A09F8A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3E13BD3C228D0F3400A09F8A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3E13BD2B228D077700A09F8A /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3E13BD3D228D0F3700A09F8A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3E13BD27228D077700A09F8A /* FirstViewController.swift */,
+				3E13BD29228D077700A09F8A /* SecondViewController.swift */,
+				3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */,
+				3E13BD40228D11B100A09F8A /* SignUpViewController.swift */,
+				3E13BD42228D11BD00A09F8A /* LoginViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		98EDBB3C6CD4271591E5888A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				03840BD1B6B2386B5698B848 /* Pods_myCuisine.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +134,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3E13BD36228D077800A09F8A /* Build configuration list for PBXNativeTarget "myCuisine" */;
 			buildPhases = (
+				665A3E22D7F85C20B29D8223 /* [CP] Check Pods Manifest.lock */,
 				3E13BD1E228D077700A09F8A /* Sources */,
 				3E13BD1F228D077700A09F8A /* Frameworks */,
 				3E13BD20228D077700A09F8A /* Resources */,
+				9A735C7FF3F0B9C0BC1FD81C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -128,19 +190,80 @@
 				3E13BD32228D077800A09F8A /* LaunchScreen.storyboard in Resources */,
 				3E13BD2F228D077800A09F8A /* Assets.xcassets in Resources */,
 				3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */,
+				3E13BD3A228D09B900A09F8A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		665A3E22D7F85C20B29D8223 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-myCuisine-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A735C7FF3F0B9C0BC1FD81C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-myCuisine/Pods-myCuisine-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-myCuisine/Pods-myCuisine-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3E13BD1E228D077700A09F8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E13BD43228D11BD00A09F8A /* LoginViewController.swift in Sources */,
 				3E13BD2A228D077700A09F8A /* SecondViewController.swift in Sources */,
 				3E13BD26228D077700A09F8A /* AppDelegate.swift in Sources */,
 				3E13BD28228D077700A09F8A /* FirstViewController.swift in Sources */,
+				3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */,
+				3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +407,7 @@
 		};
 		3E13BD37228D077800A09F8A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B538CF8A8D2ECB3A4D8FC3BA /* Pods-myCuisine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -302,6 +426,7 @@
 		};
 		3E13BD38228D077800A09F8A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF190A551438BEE6B70999AC /* Pods-myCuisine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
