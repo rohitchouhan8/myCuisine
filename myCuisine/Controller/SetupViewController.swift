@@ -7,14 +7,18 @@
 //
 
 import UIKit
+import Firebase
 
 class SetupViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-    var healthLabels = ["vegan", "vegetarian", "paleo", "dairy-free", "gluten-free", "wheat-free", "fat-free", "low-sugar", "egg-free", "peanut-free", "tree-nut-free", "soy-free", "fish-free", "shellfish-free"]
-    
-    var dietLabels = ["balanced", "high-protein", "high-fiber", "low-fat", "low-carb", "low-sodium"]
-    
-    var setupDictionary = [Int : [String]]()
+    var healthLabels = [DietItem(name: "vegan"), DietItem(name: "vegetarian"), DietItem(name: "paleo"), DietItem(name: "dairy-free"), DietItem(name: "gluten-free"), DietItem(name: "wheat-free"), DietItem(name: "fat-free"), DietItem(name: "low-sugar"), DietItem(name: "egg-free"), DietItem(name: "peanut-free"), DietItem(name: "tree-nut-free"), DietItem(name: "soy-free"), DietItem(name: "fish-free"), DietItem(name: "shellfish-free")]
+//    var healthLabels = ["vegan", "vegetarian", "paleo", "dairy-free", "gluten-free", "wheat-free", "fat-free", "low-sugar", "egg-free", "peanut-free", "tree-nut-free", "soy-free", "fish-free", "shellfish-free"]
+    var dietLabels = [DietItem(name: "balanced"), DietItem(name: "high-protein"), DietItem(name: "high-fiber"), DietItem(name: "low-fat"), DietItem(name: "low-carb"), DietItem(name: "low-sodium")]
+    //    var dietLabels = ["balanced", "high-protein", "high-fiber", "low-fat", "low-carb", "low-sodium"]
+    var setupArray = [[DietItem]]()
     var stepNumber = 0
+    
+    let db = Firestore.firestore()
+    
     @IBOutlet weak var setupTableView: UICollectionView!
     @IBOutlet weak var nextButton: UIButton!
     
@@ -25,28 +29,39 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         setupTableView.register(UINib(nibName:"CustomSetupItemCell", bundle: nil) , forCellWithReuseIdentifier: "setupItemCell")
         
-        setupDictionary[0] = healthLabels
-        setupDictionary[1] = dietLabels
+        setupArray.append(healthLabels)
+        setupArray.append(dietLabels)
+        nextButton.layer.cornerRadius = 8
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return setupDictionary[stepNumber]?.count ?? 1
+        return setupArray[stepNumber].count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = setupTableView.dequeueReusableCell(withReuseIdentifier: "setupItemCell", for: indexPath) as! CustomSetupItemCell
-        cell.name.text = healthLabels[indexPath.row]
-        cell.layer.cornerRadius = 8
+        let dataSource = setupArray[stepNumber]
+        cell.name.text = dataSource[indexPath.row].name
+        cell.layer.cornerRadius = 16
         cell.layer.masksToBounds = true
-        if cell.image.image == nil {
-           cell.name.backgroundColor = UIColor(red: 0.16, green: 0.22, blue: 0.27, alpha: 0.85)
+        if dataSource[indexPath.row].selected {
+            cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.85)
+        } else {
+            cell.image.backgroundColor = UIColor(red: 0.16, green: 0.22, blue: 0.27, alpha: 0.85)
         }
+
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = setupTableView.cellForItem(at: indexPath) as! CustomSetupItemCell
-        cell.name.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.85)
+        let dataSource = setupArray[stepNumber]
+        dataSource[indexPath.row].selected = !dataSource[indexPath.row].selected
+        if dataSource[indexPath.row].selected {
+            cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.85)
+        } else {
+            cell.image.backgroundColor = UIColor(red: 0.16, green: 0.22, blue: 0.27, alpha: 0.85)
+        }
     }
     
 
@@ -56,6 +71,57 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     @IBAction func nextButtonPressed(_ sender: UIButton) {
+        if stepNumber == setupArray.count - 1 {
+            saveData()
+            performSegue(withIdentifier: "goToMain", sender: self)
+        } else {
+            
+            if stepNumber == setupArray.count - 2 {
+                nextButton.titleLabel?.text = "Submit"
+            }
+            print(stepNumber)
+            stepNumber += 1
+            setupTableView.reloadData()
+        }
+    }
+    
+    func saveData() {
+        let currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
+        let formattedData = formatData()
+        print(formatData())
+        currentUserRef.setData(formattedData) { (error) in
+            if let err = error {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+    
+    func formatData() -> [String: [String]] {
+        var unselectedHealthLabels = [String]()
+        var selectedHealthLabels = [String]()
+        var unselectedDietLabels = [String]()
+        var selectedDietLabels = [String]()
+        
+        for healthLabel in healthLabels {
+            if healthLabel.selected {
+                selectedHealthLabels.append(healthLabel.name)
+            } else {
+                unselectedHealthLabels.append(healthLabel.name)
+            }
+        }
+        for dietLabel in dietLabels {
+            if dietLabel.selected {
+                selectedDietLabels.append(dietLabel.name)
+            } else {
+                unselectedDietLabels.append(dietLabel.name)
+            }
+        }
+        return ["unselectedHL" : unselectedHealthLabels,
+                "selectedHL" : selectedHealthLabels,
+                "unselectedDL" : unselectedDietLabels,
+                "selectedDL" : selectedDietLabels]
     }
     
 }

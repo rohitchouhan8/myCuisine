@@ -19,8 +19,8 @@ class LoginViewController: UIViewController {
     let db = Firestore.firestore()
     override func viewDidLoad() {
         super.viewDidLoad()
-        backButton.layer.cornerRadius = 4
-        loginButton.layer.cornerRadius = 4
+        backButton.layer.cornerRadius = 8
+        loginButton.layer.cornerRadius = 8
         // Do any additional setup after loading the view.
     }
     
@@ -48,7 +48,7 @@ class LoginViewController: UIViewController {
                     print(error!)
                 } else {
                     print("Login successful")
-                    let currentUserRef = self.db.collection("Users").document(Auth.auth().currentUser!.uid)
+                    let currentUserRef = self.db.collection("users").document(Auth.auth().currentUser!.uid)
                     currentUserRef.getDocument(completion: { (document, error) in
                         if let document = document {
                             if let dataDescription = document.data().map(String.init(describing:)) {
