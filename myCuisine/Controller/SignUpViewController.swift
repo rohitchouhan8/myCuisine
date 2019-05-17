@@ -52,7 +52,7 @@ class SignUpViewController: UIViewController {
                 } else {
                     //success
                     print("registration successful")
-                    self.performSegue(withIdentifier: "goToMain", sender: self)
+                    self.performSegue(withIdentifier: "goToSetup", sender: self)
                 }
                 SVProgressHUD.dismiss()
             }

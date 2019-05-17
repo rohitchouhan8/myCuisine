@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     
+    let db = Firestore.firestore()
     override func viewDidLoad() {
         super.viewDidLoad()
         backButton.layer.cornerRadius = 4
@@ -47,7 +48,22 @@ class LoginViewController: UIViewController {
                     print(error!)
                 } else {
                     print("Login successful")
-                    self.performSegue(withIdentifier: "goToMain", sender: self)
+                    let currentUserRef = self.db.collection("Users").document(Auth.auth().currentUser!.uid)
+                    currentUserRef.getDocument(completion: { (document, error) in
+                        if let document = document {
+                            if let dataDescription = document.data().map(String.init(describing:)) {
+                                print("Cached document data: \(dataDescription)")
+                                self.performSegue(withIdentifier: "goToMain", sender: self)
+                            } else {
+                                print("data description is nil")
+                                self.performSegue(withIdentifier: "goToSetup", sender: self)
+                            }
+                        } else {
+                            print("Document does not exist in cache")
+                            self.performSegue(withIdentifier: "goToSetup", sender: self)
+                        }
+                    })
+                    
                 }
                 SVProgressHUD.dismiss()
             }

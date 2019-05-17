@@ -18,6 +18,9 @@
 		3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */; };
 		3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD40228D11B100A09F8A /* SignUpViewController.swift */; };
 		3E13BD43228D11BD00A09F8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD42228D11BD00A09F8A /* LoginViewController.swift */; };
+		3E4C8D81228E2DAA00CBE1BF /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */; };
+		3E4C8D85228E323A00CBE1BF /* CustomSetupItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C8D83228E323A00CBE1BF /* CustomSetupItemCell.swift */; };
+		3E4C8D86228E323A00CBE1BF /* CustomSetupItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E4C8D84228E323A00CBE1BF /* CustomSetupItemCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		3E13BD40228D11B100A09F8A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3E13BD42228D11BD00A09F8A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
+		3E4C8D83228E323A00CBE1BF /* CustomSetupItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSetupItemCell.swift; sourceTree = "<group>"; };
+		3E4C8D84228E323A00CBE1BF /* CustomSetupItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSetupItemCell.xib; sourceTree = "<group>"; };
 		B538CF8A8D2ECB3A4D8FC3BA /* Pods-myCuisine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myCuisine.debug.xcconfig"; path = "Target Support Files/Pods-myCuisine/Pods-myCuisine.debug.xcconfig"; sourceTree = "<group>"; };
 		BF190A551438BEE6B70999AC /* Pods-myCuisine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myCuisine.release.xcconfig"; path = "Target Support Files/Pods-myCuisine/Pods-myCuisine.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				3E13BD2B228D077700A09F8A /* Main.storyboard */,
+				3E4C8D82228E31F900CBE1BF /* CustomSetupItem */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -115,8 +122,18 @@
 				3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */,
 				3E13BD40228D11B100A09F8A /* SignUpViewController.swift */,
 				3E13BD42228D11BD00A09F8A /* LoginViewController.swift */,
+				3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		3E4C8D82228E31F900CBE1BF /* CustomSetupItem */ = {
+			isa = PBXGroup;
+			children = (
+				3E4C8D83228E323A00CBE1BF /* CustomSetupItemCell.swift */,
+				3E4C8D84228E323A00CBE1BF /* CustomSetupItemCell.xib */,
+			);
+			path = CustomSetupItem;
 			sourceTree = "<group>";
 		};
 		98EDBB3C6CD4271591E5888A /* Frameworks */ = {
@@ -189,6 +206,7 @@
 			files = (
 				3E13BD32228D077800A09F8A /* LaunchScreen.storyboard in Resources */,
 				3E13BD2F228D077800A09F8A /* Assets.xcassets in Resources */,
+				3E4C8D86228E323A00CBE1BF /* CustomSetupItemCell.xib in Resources */,
 				3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */,
 				3E13BD3A228D09B900A09F8A /* GoogleService-Info.plist in Resources */,
 			);
@@ -228,10 +246,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-myCuisine/Pods-myCuisine-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -239,10 +261,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -264,6 +290,8 @@
 				3E13BD28228D077700A09F8A /* FirstViewController.swift in Sources */,
 				3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */,
 				3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */,
+				3E4C8D81228E2DAA00CBE1BF /* SetupViewController.swift in Sources */,
+				3E4C8D85228E323A00CBE1BF /* CustomSetupItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

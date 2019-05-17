@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="setupItemCell" id="gTV-IL-0wX" customClass="CustomSetupItemCell" customModule="myCuisine" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.14999999999999999" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oMn-Nu-Gew">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                        <color key="backgroundColor" red="0.15686274510000001" green="0.21960784310000001" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="18" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SV5-Di-28L">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="SV5-Di-28L" secondAttribute="bottom" id="3Nf-Xf-Dec"/>
+                <constraint firstAttribute="bottom" secondItem="oMn-Nu-Gew" secondAttribute="bottom" id="BGb-jL-LC1"/>
+                <constraint firstAttribute="trailing" secondItem="SV5-Di-28L" secondAttribute="trailing" id="Kqs-Fj-Aza"/>
+                <constraint firstItem="oMn-Nu-Gew" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="RBo-0q-VPB"/>
+                <constraint firstItem="oMn-Nu-Gew" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="bYV-lW-HkJ"/>
+                <constraint firstAttribute="trailing" secondItem="oMn-Nu-Gew" secondAttribute="trailing" id="nx2-ua-X0T"/>
+                <constraint firstItem="SV5-Di-28L" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ojr-nq-Svg"/>
+                <constraint firstItem="SV5-Di-28L" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qAz-X4-gRg"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="image" destination="oMn-Nu-Gew" id="vPG-cp-r3n"/>
+                <outlet property="name" destination="SV5-Di-28L" id="Zgp-cL-s8X"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="75"/>
+        </collectionViewCell>
+    </objects>
+</document>
