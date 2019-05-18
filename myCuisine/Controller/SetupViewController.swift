@@ -32,9 +32,12 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         setupArray.append(healthLabels)
         setupArray.append(dietLabels)
         nextButton.layer.cornerRadius = 8
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(setupArray[stepNumber].count)
         return setupArray[stepNumber].count
     }
     
@@ -45,8 +48,11 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         cell.layer.cornerRadius = 16
         cell.layer.masksToBounds = true
         if dataSource[indexPath.row].selected {
+            // Yellow background
             cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.85)
         } else {
+            //Gray background
+            print("gray background printed")
             cell.image.backgroundColor = UIColor(red: 0.16, green: 0.22, blue: 0.27, alpha: 0.85)
         }
 
@@ -71,24 +77,34 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     @IBAction func nextButtonPressed(_ sender: UIButton) {
-        if stepNumber == setupArray.count - 1 {
+        stepNumber += 1
+        if stepNumber == setupArray.count {
             saveData()
-            performSegue(withIdentifier: "goToMain", sender: self)
+            performSegue(withIdentifier: "goToFoods", sender: self)
+        } else if stepNumber == setupArray.count - 1 {
+            nextButton.setTitle("Submit", for: .normal)
+            setupTableView.reloadData()
         } else {
-            
-            if stepNumber == setupArray.count - 2 {
-                nextButton.titleLabel?.text = "Submit"
-            }
-            print(stepNumber)
-            stepNumber += 1
             setupTableView.reloadData()
         }
+        
+//        if stepNumber == setupArray.count - 1 {
+//            saveData()
+//            performSegue(withIdentifier: "goToMain", sender: self)
+//        } else {
+//
+//            if stepNumber == setupArray.count - 2 {
+//                nextButton.titleLabel?.text = "Submit"
+//            }
+//            print(stepNumber)
+//            stepNumber += 1
+//            setupTableView.reloadData()
+//        }
     }
     
     func saveData() {
         let currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         let formattedData = formatData()
-        print(formatData())
         currentUserRef.setData(formattedData) { (error) in
             if let err = error {
                 print("Error writing document: \(err)")
@@ -123,5 +139,7 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
                 "unselectedDL" : unselectedDietLabels,
                 "selectedDL" : selectedDietLabels]
     }
+    
+    
     
 }
