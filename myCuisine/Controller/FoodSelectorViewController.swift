@@ -51,7 +51,6 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
         cell.name.text = selectedFoods[indexPath.row]
         cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.9)
         cell.layer.cornerRadius = 8
-        print("made cell")
         return cell
     }
     
@@ -69,6 +68,7 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
             print("could not find searchText")
         }
         searchTextField.endEditing(true)
+        searchTextField.filterStrings([String]())
         
     }
     /*
