@@ -10,10 +10,14 @@ import UIKit
 import Firebase
 
 class SetupViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-    var healthLabels = [DietItem(name: "vegan"), DietItem(name: "vegetarian"), DietItem(name: "paleo"), DietItem(name: "dairy-free"), DietItem(name: "gluten-free"), DietItem(name: "wheat-free"), DietItem(name: "fat-free"), DietItem(name: "low-sugar"), DietItem(name: "egg-free"), DietItem(name: "peanut-free"), DietItem(name: "tree-nut-free"), DietItem(name: "soy-free"), DietItem(name: "fish-free"), DietItem(name: "shellfish-free")]
-//    var healthLabels = ["vegan", "vegetarian", "paleo", "dairy-free", "gluten-free", "wheat-free", "fat-free", "low-sugar", "egg-free", "peanut-free", "tree-nut-free", "soy-free", "fish-free", "shellfish-free"]
-    var dietLabels = [DietItem(name: "balanced"), DietItem(name: "high-protein"), DietItem(name: "high-fiber"), DietItem(name: "low-fat"), DietItem(name: "low-carb"), DietItem(name: "low-sodium")]
-    //    var dietLabels = ["balanced", "high-protein", "high-fiber", "low-fat", "low-carb", "low-sodium"]
+    var cuisine = [DietItem(name: "african"), DietItem(name: "chinese"), DietItem(name: "japanese"), DietItem(name: "korean"), DietItem(name: "vietnamese"), DietItem(name: "thai"), DietItem(name: "indian"), DietItem(name: "british"), DietItem(name: "irish"), DietItem(name: "french"), DietItem(name: "italian"), DietItem(name: "mexican"), DietItem(name: "spanish"), DietItem(name: "middle eastern"), DietItem(name: "jewish"), DietItem(name: "american"), DietItem(name: "cajun"), DietItem(name: "southern"), DietItem(name: "greek"), DietItem(name: "german"), DietItem(name: "nordic"), DietItem(name: "eastern european"), DietItem(name: "caribbean"), DietItem(name: "latin american")]
+    //african, chinese, japanese, korean, vietnamese, thai, indian, british, irish, french, italian, mexican, spanish, middle eastern, jewish, american, cajun, southern, greek, german, nordic, eastern european, caribbean, or latin american
+    
+    var dietLabels = [DietItem(name: "pescetarian"), DietItem(name: "lacto vegetarian"), DietItem(name: "ovo vegetarian"), DietItem(name: "vegan"), DietItem(name: "vegetarian")]
+    //pescetarian, lacto vegetarian, ovo vegetarian, vegan, and vegetarian
+
+
+    
     var setupArray = [[DietItem]]()
     var stepNumber = 0
     
@@ -29,7 +33,7 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         setupTableView.register(UINib(nibName:"CustomSetupItemCell", bundle: nil) , forCellWithReuseIdentifier: "setupItemCell")
         
-        setupArray.append(healthLabels)
+        setupArray.append(cuisine)
         setupArray.append(dietLabels)
         nextButton.layer.cornerRadius = 8
         
@@ -52,7 +56,6 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.85)
         } else {
             //Gray background
-            print("gray background printed")
             cell.image.backgroundColor = UIColor(red: 0.16, green: 0.22, blue: 0.27, alpha: 0.85)
         }
 
@@ -114,17 +117,16 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     }
     
-    func formatData() -> [String: [String]] {
-        var unselectedHealthLabels = [String]()
-        var selectedHealthLabels = [String]()
+    func formatData() -> [String: Any] {
+        var cuisinesDictionary = [String : Int]()
         var unselectedDietLabels = [String]()
         var selectedDietLabels = [String]()
         
-        for healthLabel in healthLabels {
-            if healthLabel.selected {
-                selectedHealthLabels.append(healthLabel.name)
+        for c in cuisine {
+            if c.selected {
+                cuisinesDictionary[c.name] = 5
             } else {
-                unselectedHealthLabels.append(healthLabel.name)
+                cuisinesDictionary[c.name] = 0
             }
         }
         for dietLabel in dietLabels {
@@ -134,8 +136,7 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
                 unselectedDietLabels.append(dietLabel.name)
             }
         }
-        return ["unselectedHL" : unselectedHealthLabels,
-                "selectedHL" : selectedHealthLabels,
+        return ["cuisineCount" : cuisinesDictionary,
                 "unselectedDL" : unselectedDietLabels,
                 "selectedDL" : selectedDietLabels]
     }
