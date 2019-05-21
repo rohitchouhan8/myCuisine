@@ -31,21 +31,57 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xzk-eV-bgH">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recipeCell" rowHeight="120" id="vF1-Lt-e10" customClass="RecipeTableViewCell" customModule="myCuisine" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vF1-Lt-e10" id="Nmu-Se-fWH">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="119.66666666666667"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4l-6y-IDU">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="MyRecipes" id="P1g-24-LGA">
+                                        <barButtonItem key="rightBarButtonItem" title="Logout" style="done" id="nU9-0C-VDb">
+                                            <connections>
+                                                <action selector="logoutPressed:" destination="9pv-A4-QxB" id="w2N-5p-s6b"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Xzk-eV-bgH" firstAttribute="top" secondItem="D4l-6y-IDU" secondAttribute="bottom" id="2Pv-nS-9d3"/>
                             <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
+                            <constraint firstItem="Xzk-eV-bgH" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="D0F-Bk-m5l"/>
+                            <constraint firstItem="Xzk-eV-bgH" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="O5h-E6-pxt"/>
+                            <constraint firstItem="D4l-6y-IDU" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="Wbf-IN-6CZ"/>
+                            <constraint firstItem="D4l-6y-IDU" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" id="X5P-wU-EUR"/>
                             <constraint firstItem="A5M-7J-77L" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="8" symbolic="YES" id="cfb-er-3JN"/>
                             <constraint firstItem="A5M-7J-77L" firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="e1l-AV-tCB"/>
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
+                            <constraint firstItem="Xzk-eV-bgH" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="tOl-WU-WlM"/>
+                            <constraint firstItem="D4l-6y-IDU" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="xLR-fB-Mfl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <connections>
+                        <outlet property="recipeTableView" destination="Xzk-eV-bgH" id="agN-Gx-ElD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3026" y="-309"/>
+            <point key="canvasLocation" x="3024.6376811594205" y="-309.375"/>
         </scene>
         <!--Second-->
         <scene sceneID="wg7-f3-ORb">
