@@ -124,9 +124,9 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         for c in cuisine {
             if c.selected {
-                cuisinesDictionary[c.name] = 5
+                cuisinesDictionary[c.name] = 2 * cuisine.count
             } else {
-                cuisinesDictionary[c.name] = 0
+                cuisinesDictionary[c.name] = 1
             }
         }
         for dietLabel in dietLabels {

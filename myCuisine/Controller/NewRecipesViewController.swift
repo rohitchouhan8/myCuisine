@@ -12,21 +12,34 @@ import Alamofire
 import SwiftyJSON
 import SearchTextField
 import SDWebImage
+import Hero
 
-class NewRecipesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let db = Firestore.firestore()
-    var currentUserRef : DocumentReference?
+class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, UITableViewDataSource {
+
+    
+    // Base url for searching for recipe
     let recipeSearchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/searchComplex"
+    
+    //Base url for getting a recipe
     let getRecipeURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes"
+    
+    //Key and host for headers for API requests
     var host : String?
     var key : String?
-    var recipes = [Recipe]()
+    
+    
+    
+    //Number of recipes to display
+    let numOptions = 7
     
     @IBOutlet weak var recipeTableView: UITableView!
+    
     enum requestType {
         case search
         case getRecipe
     }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -35,33 +48,80 @@ class NewRecipesViewController: UIViewController, UITableViewDelegate, UITableVi
         guard let secrets = getPlist(withName: "Secrets") else {fatalError()}
         host = secrets["Host"]!
         key = secrets["Key"]!
-        makeSearchRequest()
-        recipeTableView.delegate = self
-        recipeTableView.dataSource = self
-        recipeTableView.register(UINib(nibName:"RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "recipeCell")
-        recipeTableView.rowHeight = 120
+        configureTableView()
         
+        print("CURRENT USER: \(Auth.auth().currentUser!.uid)")
+        loadRecipes()
         
     }
     
-//    func loadUserPreferences() {
-//        guard let userRef = currentUserRef else {fatalError()}
-//        userRef.getDocument { (document, error) in
-//            print("started")
-//            if let document = document, document.exists {
-//                if let data = document.data() {
-//                    let healthLabels = (data["selectedHL"] as! [String])
-//                    let dietLabels = (data["selectedDL"] as! [String])
-//                    let dislikedFoods = (data["disliked foods"] as! [String])
-//                    let likedFoods = (data["liked foods"] as! [String])
-////                    self.makeRequest(for: dislikedFoods, for: dietLabels, for: healthLabels, for: likedFoods)
-//                }
-//
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
-//    }
+    override func loadRecipes() {
+        currentUserRef?.addSnapshotListener({ (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            let recipesLastChanged = data["recipesLastChanged"] as! Double
+            if Date().timeIntervalSince1970.magnitude - recipesLastChanged > 86400 {
+                print("Loading new recipes...")
+                self.loadNewRecipes(with: data)
+            } else {
+                print("Loading current recipes...")
+                self.loadCurrentRecipes(with: data)
+            }
+            
+        })
+        
+    }
+    
+    //Configures table view to set the delegate and data source properties. It also sets the row height and the custom recipe cell to use for display.
+    override func configureTableView() {
+        recipeTableView.delegate = self
+        recipeTableView.dataSource = self
+        recipeTableView.register(UINib(nibName:"RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "recipeCell")
+        recipeTableView.rowHeight = CGFloat(rowHeight)
+
+        recipeTableView.separatorStyle = .none
+        
+    }
+    
+
+    
+    func loadNewRecipes(with userData: [String : Any]) {
+        let cuisineCount = (userData["cuisineCount"] as! [String : Int])
+        let dietLabels = (userData["selectedDL"] as! [String])
+        let dislikedFoods = (userData["disliked"] as! [String])
+        let intolerableFoods = (userData["intolerable"] as! [String])
+        self.makeSearchRequest(cuisineCount: cuisineCount, dietLables: dietLabels, dislikedFoods: dislikedFoods, intolerableFoods: intolerableFoods)
+ 
+    }
+    
+    func loadCurrentRecipes(with userData: [String : Any]) {
+        let recipesCollectionRef = db.collection("recipes")
+        let recipeIdArray = userData["currentRecipes"] as! [Int]
+        for recipeId in recipeIdArray {
+            let recipeDocument = recipesCollectionRef.document(String(recipeId))
+            recipeDocument.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let data = document.data() {
+                        let recipe = self.getRecipeFromFirestore(data: data)
+                        self.recipes.append(recipe)
+                        self.recipeTableView.reloadData()
+                    }
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
+    }
+
+
+    
+    
     
     //MARK: Networking requests to Spoonacular
     func makeRequest(url: String, headers: [String : String], params : [String : Any]?, type: requestType) {
@@ -90,26 +150,56 @@ class NewRecipesViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func makeSearchRequest() {
-        
+    func makeSearchRequest(cuisineCount: [String: Int], dietLables : [String], dislikedFoods : [String], intolerableFoods : [String]) {
+        let cuisine = getPreferredCuisine(cuisineCount: cuisineCount, numCuisines: 3)
         let params = ["limitLicense" : true,
-                      "query" : "salad",
-                      "diet" : "vegetarian",
-                      "excludeIngredients" : "coconut",
-                      "intolerances" : "egg, gluten",
-                      "number" : 10,
-                      "offset" : 0,
+                      "diet" : reformatString(array: dietLables),
+                      "cuisine" : reformatString(array: cuisine),
+                      "excludeIngredients" : reformatString(array: dislikedFoods),
+                      "intolerances" : reformatString(array: intolerableFoods),
+                      "number" : numOptions,
+                      "offset" : Int(arc4random_uniform(30)),
                       "type" : "main course"] as [String : Any]
         let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
         makeRequest(url: recipeSearchURL, headers: headers, params: params, type: .search)
     }
     
-    func handleSearchRequest(for recipeJSON : JSON) {
-        let recipeID = recipeJSON["results"][0]["id"].intValue
-        let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
-        let getURL = getRecipeURL + "/\(recipeID)/information"
-        makeRequest(url: getURL, headers: headers, params: nil, type: .getRecipe)
+    func getPreferredCuisine(cuisineCount: [String : Int], numCuisines : Int) -> [String] {
+        let sum = Double(Array(cuisineCount.values).reduce(0, +))
+        var cuisineProbabilities = [String : Double]()
+        for (cui, count) in cuisineCount {
+            cuisineProbabilities[cui] = Double(count) / sum
+        }
         
+        
+        var resultArray = [String]()
+        for _ in 0..<numCuisines {
+            let rnd = Double.random(in: 0.0..<1.0)
+            var accum = 0.0
+            for cui in cuisineProbabilities {
+                accum += cui.value
+                if (rnd < accum) {
+                    resultArray.append(cui.key)
+                    break
+                }
+            }
+        }
+        print("Preferred cuisines: \(resultArray)")
+        return resultArray
+        
+    }
+    
+    func reformatString(array : [String]) -> String {
+        return array.joined(separator: ", ")
+    }
+    
+    func handleSearchRequest(for recipeJSON : JSON) {
+        for i in 0..<numOptions {
+            let recipeID = recipeJSON["results"][i]["id"].intValue
+            let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
+            let getURL = getRecipeURL + "/\(recipeID)/information"
+            makeRequest(url: getURL, headers: headers, params: nil, type: .getRecipe)
+        }
     }
 
     
@@ -131,15 +221,25 @@ class NewRecipesViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         var ingredients = [Ingredient]()
         for ingredientJSON in recipeJSON["extendedIngredients"].arrayValue {
-            let name = ingredientJSON["originalName"].stringValue
+            let originalName = ingredientJSON["originalName"].stringValue
+            let name = ingredientJSON["name"].stringValue
             let unit = ingredientJSON["unit"].stringValue
             let amount = ingredientJSON["amount"].intValue
             let id = ingredientJSON["id"].intValue
-            ingredients.append(Ingredient(originalName: name, unit: unit, amount: amount, id: id))
+            ingredients.append(Ingredient(originalName: originalName, name: name, unit: unit, amount: amount, id: id))
         }
         
-        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets)
+        var cuisines = [String]()
+        for cuisine in recipeJSON["cuisines"].arrayValue {
+            cuisines.append(cuisine.stringValue)
+        }
+        
+        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines)
         recipes.append(recipe)
+        if recipes.count == numOptions {
+            saveCurrentRecipes()
+        }
+        recipe.saveRecipe()
         print("SAVED RECIPE: \(recipe)")
         recipeTableView.reloadData()
     }
@@ -155,14 +255,27 @@ class NewRecipesViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
 
-    @IBAction func logoutPressed(_ sender: Any) {
+    @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
         //TODO: Log out the user and send them back to WelcomeViewController
         do {
             try Auth.auth().signOut()
-            navigationController?.popToRootViewController(animated: true)
+            self.dismiss(animated: true, completion: {})
+            self.navigationController?.popToRootViewController(animated: true)
             
         } catch {
             print("Error signing out")
+        }
+    }
+    @IBAction func refreshPressed(_ sender: UIButton) {
+        recipes = [Recipe]()
+        guard let userRef = currentUserRef else {fatalError()}
+        userRef.getDocument { (document, error) in
+            print("started")
+            if let document = document, document.exists {
+                if let data = document.data() {
+                    self.loadNewRecipes(with: data)
+                }
+            }
         }
         
     }
@@ -179,12 +292,54 @@ class NewRecipesViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.creditLabel.text = recipe.creditText
         cell.numberMinutesLabel.text = String(recipe.readyInMinutes)
         cell.numberIngredientsLabel.text = String(recipe.ingredients.count)
-        
+
         cell.recipeImageView.sd_setImage(with: URL(string: recipe.imageURL))
-        
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc2 = DetailRecipeViewController()
+        
+        // this enables Hero
+        vc2.hero.isEnabled = true
+        
+        // this configures the built in animation
+        //    vc2.hero.modalAnimationType = .zoom
+        //    vc2.hero.modalAnimationType = .pageIn(direction: .left)
+        //    vc2.hero.modalAnimationType = .pull(direction: .left)
+        //    vc2.hero.modalAnimationType = .autoReverse(presenting: .pageIn(direction: .left))
+        vc2.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .fade)
+        
+//        // lastly, present the view controller like normal
+//        present(vc2, animated: true, completion: nil)
+        
+        performSegue(withIdentifier: "goToDetail", sender: self)
+    }
+    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! DetailRecipeViewController
+        if let indexPath = recipeTableView.indexPathForSelectedRow {
+            let recipe = recipes[indexPath.row]
+            destinationVC.recipe = recipe
+        }
+    }
+    
+    //MARK: Firestore methods
+    func saveCurrentRecipes() {
+        guard let userRef = currentUserRef else {fatalError()}
+        var currentRecipeIds = [Int]()
+        for recipe in recipes {
+            currentRecipeIds.append(recipe.id)
+        }
+        userRef.setData(["currentRecipes" : currentRecipeIds], merge: true)
+        userRef.setData(["recipesLastChanged" : Date().timeIntervalSince1970.magnitude], merge: true)
+        
+    }
+    
+
 }
+
 
 
 

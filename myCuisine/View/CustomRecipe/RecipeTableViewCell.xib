@@ -13,95 +13,160 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="recipeCell" id="KGk-i7-Jjw" customClass="RecipeTableViewCell" customModule="myCuisine" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="119.66666666666667"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="239.66666666666666"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pKH-ct-B4e">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="119.66666666666667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="239.66666666666666"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabledForSubviews" value="YES"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="foodImage"/>
+                        </userDefinedRuntimeAttributes>
                     </imageView>
+                    <view alpha="0.55000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ow-bz-pQx" customClass="EZYGradientView" customModule="EZYGradientView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="239.66666666666666"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="angleº">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="colorRatio">
+                                <real key="value" value="0.59999999999999998"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="fadeIntensity">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="blurOpacity">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="119" translatesAutoresizingMaskIntoConstraints="NO" id="ROi-dc-RKz">
-                        <rect key="frame" x="16" y="87.666666666666671" width="288" height="24"/>
+                        <rect key="frame" x="16" y="207.66666666666666" width="288" height="24"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="LEC-NI-kEi">
                                 <rect key="frame" x="0.0" y="0.0" width="95.666666666666671" height="24"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ly-xk-KVD">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ly-xk-KVD">
                                         <rect key="frame" x="0.0" y="0.0" width="23.333333333333332" height="24"/>
                                         <fontDescription key="fontDescription" name="GujaratiSangamMN-Bold" family="Gujarati Sangam MN" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="numberIngredients"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="feG-IW-Fd4">
                                         <rect key="frame" x="23.333333333333336" y="0.0" width="72.333333333333314" height="24"/>
                                         <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="ingredients"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                 </subviews>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="ingredientStackView"/>
+                                </userDefinedRuntimeAttributes>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="dq3-gD-eQL">
                                 <rect key="frame" x="214.66666666666666" y="0.0" width="73.333333333333343" height="24"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyX-ih-Uzp">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyX-ih-Uzp">
                                         <rect key="frame" x="0.0" y="0.0" width="23.666666666666668" height="24"/>
                                         <fontDescription key="fontDescription" name="GujaratiSangamMN-Bold" family="Gujarati Sangam MN" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="numberMinutes"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minutes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMr-Jv-UPb">
                                         <rect key="frame" x="23.666666666666682" y="0.0" width="49.666666666666657" height="24"/>
                                         <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="minutes"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                 </subviews>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="timeStackView"/>
+                                </userDefinedRuntimeAttributes>
                             </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="scT-NW-Afd"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabledForSubviews" value="YES"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="detailsStackView"/>
+                        </userDefinedRuntimeAttributes>
                     </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IWS-db-XiZ">
-                        <rect key="frame" x="16" y="35.333333333333336" width="288" height="49.000000000000007"/>
+                        <rect key="frame" x="16" y="150.66666666666666" width="288" height="49"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="PRU-Dk-E5x">
-                                <rect key="frame" x="0.0" y="0.0" width="288" height="35.666666666666664"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="PRU-Dk-E5x">
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabledForSubviews" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="titleLabel"/>
+                                </userDefinedRuntimeAttributes>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="HOs-Wo-HU7">
-                                <rect key="frame" x="0.0" y="31.333333333333336" width="288" height="17.666666666666664"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Credit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="HOs-Wo-HU7">
+                                <rect key="frame" x="0.0" y="31" width="288" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="creditLabel"/>
+                                </userDefinedRuntimeAttributes>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="PRU-Dk-E5x" firstAttribute="leading" secondItem="IWS-db-XiZ" secondAttribute="leading" id="4Wt-go-4Yq"/>
-                            <constraint firstAttribute="bottom" secondItem="HOs-Wo-HU7" secondAttribute="bottom" id="5lg-dG-npy"/>
-                            <constraint firstItem="HOs-Wo-HU7" firstAttribute="leading" secondItem="IWS-db-XiZ" secondAttribute="leading" id="chq-HN-1aI"/>
-                            <constraint firstItem="PRU-Dk-E5x" firstAttribute="top" secondItem="IWS-db-XiZ" secondAttribute="top" id="kvD-HZ-SwP"/>
-                            <constraint firstAttribute="height" constant="49" id="swE-Cf-dQ5"/>
-                            <constraint firstAttribute="trailing" secondItem="HOs-Wo-HU7" secondAttribute="trailing" id="uaH-Ca-hzc"/>
-                            <constraint firstAttribute="trailing" secondItem="PRU-Dk-E5x" secondAttribute="trailing" id="xYC-Vx-3Ne"/>
+                            <constraint firstAttribute="height" constant="49" id="Z3g-lO-Jg4"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="titleAndCreditView"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabledForSubviews" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="6ow-bz-pQx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="7Hl-IJ-Ltk"/>
                     <constraint firstAttribute="trailing" secondItem="ROi-dc-RKz" secondAttribute="trailing" constant="16" id="7uw-XD-VGq"/>
-                    <constraint firstItem="IWS-db-XiZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9rH-fy-Xsk"/>
                     <constraint firstAttribute="bottom" secondItem="pKH-ct-B4e" secondAttribute="bottom" id="GJp-em-BhW"/>
                     <constraint firstAttribute="trailing" secondItem="pKH-ct-B4e" secondAttribute="trailing" id="Loa-b4-acU"/>
-                    <constraint firstItem="IWS-db-XiZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="QpB-FU-Fh9"/>
-                    <constraint firstAttribute="trailing" secondItem="IWS-db-XiZ" secondAttribute="trailing" constant="16" id="cgy-ZF-qmy"/>
+                    <constraint firstItem="6ow-bz-pQx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="PqR-Xv-5Db"/>
+                    <constraint firstItem="IWS-db-XiZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="S8h-XC-NyW"/>
+                    <constraint firstAttribute="trailing" secondItem="IWS-db-XiZ" secondAttribute="trailing" constant="16" id="Wht-2R-i0V"/>
+                    <constraint firstItem="ROi-dc-RKz" firstAttribute="top" secondItem="IWS-db-XiZ" secondAttribute="bottom" constant="8" id="aLy-dD-yoW"/>
                     <constraint firstItem="pKH-ct-B4e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="eqX-97-Mbq"/>
                     <constraint firstAttribute="bottom" secondItem="ROi-dc-RKz" secondAttribute="bottom" constant="8" id="k7x-8M-uj0"/>
+                    <constraint firstAttribute="bottom" secondItem="6ow-bz-pQx" secondAttribute="bottom" id="p9u-90-Tfn"/>
                     <constraint firstItem="ROi-dc-RKz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="uax-hG-pdy"/>
+                    <constraint firstAttribute="trailing" secondItem="6ow-bz-pQx" secondAttribute="trailing" id="x1x-Yo-xIm"/>
                     <constraint firstItem="pKH-ct-B4e" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="yBQ-05-rAp"/>
                 </constraints>
             </tableViewCellContentView>
@@ -113,7 +178,7 @@
                 <outlet property="recipeImageView" destination="pKH-ct-B4e" id="CwE-7I-3vI"/>
                 <outlet property="recipeNameLabel" destination="PRU-Dk-E5x" id="Q5b-0R-MyQ"/>
             </connections>
-            <point key="canvasLocation" x="47.826086956521742" y="34.821428571428569"/>
+            <point key="canvasLocation" x="-401.44927536231887" y="-88.392857142857139"/>
         </tableViewCell>
     </objects>
 </document>

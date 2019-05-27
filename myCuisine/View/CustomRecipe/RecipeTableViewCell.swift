@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecipeTableViewCell: UITableViewCell {
+class RecipeTableViewCell: UITableViewCell{
 
     
     

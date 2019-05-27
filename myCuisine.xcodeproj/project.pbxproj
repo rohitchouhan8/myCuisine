@@ -10,7 +10,7 @@
 		09D2ECA7E92F1D36A689BCF7 /* Pods_myCuisine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03840BD1B6B2386B5698B848 /* Pods_myCuisine.framework */; };
 		3E13BD26228D077700A09F8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD25228D077700A09F8A /* AppDelegate.swift */; };
 		3E13BD28228D077700A09F8A /* NewRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD27228D077700A09F8A /* NewRecipesViewController.swift */; };
-		3E13BD2A228D077700A09F8A /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD29228D077700A09F8A /* SecondViewController.swift */; };
+		3E13BD2A228D077700A09F8A /* SavedRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */; };
 		3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD2B228D077700A09F8A /* Main.storyboard */; };
 		3E13BD2F228D077800A09F8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD2E228D077800A09F8A /* Assets.xcassets */; };
 		3E13BD32228D077800A09F8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD30228D077800A09F8A /* LaunchScreen.storyboard */; };
@@ -27,6 +27,10 @@
 		3E4DAB7A22947E1D007CD5F7 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4DAB7922947E1D007CD5F7 /* Ingredient.swift */; };
 		3E4DAB82229488EA007CD5F7 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4DAB80229488EA007CD5F7 /* RecipeTableViewCell.swift */; };
 		3E4DAB83229488EA007CD5F7 /* RecipeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E4DAB81229488EA007CD5F7 /* RecipeTableViewCell.xib */; };
+		3E767182229B6D3F008F40B2 /* SuccessfulSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */; };
+		3E767183229B6D3F008F40B2 /* SuccessfulSaveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */; };
+		3EAE017E2295EE0500E853A2 /* DetailRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */; };
+		3EDEA576229A2C6F00D3F0EB /* RecipeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */; };
 		3EFB9705228F418300A17297 /* DietItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB9704228F418300A17297 /* DietItem.swift */; };
 		3EFB9709228F9F7A00A17297 /* FoodSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */; };
 /* End PBXBuildFile section */
@@ -36,7 +40,7 @@
 		3E13BD22228D077700A09F8A /* myCuisine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myCuisine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E13BD25228D077700A09F8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E13BD27228D077700A09F8A /* NewRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRecipesViewController.swift; sourceTree = "<group>"; };
-		3E13BD29228D077700A09F8A /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipesViewController.swift; sourceTree = "<group>"; };
 		3E13BD2C228D077700A09F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E13BD2E228D077800A09F8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E13BD31228D077800A09F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +58,10 @@
 		3E4DAB7922947E1D007CD5F7 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		3E4DAB80229488EA007CD5F7 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		3E4DAB81229488EA007CD5F7 /* RecipeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeTableViewCell.xib; sourceTree = "<group>"; };
+		3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessfulSaveView.swift; sourceTree = "<group>"; };
+		3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SuccessfulSaveView.xib; sourceTree = "<group>"; };
+		3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeViewController.swift; sourceTree = "<group>"; };
+		3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewController.swift; sourceTree = "<group>"; };
 		3EFB9704228F418300A17297 /* DietItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietItem.swift; sourceTree = "<group>"; };
 		3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSelectorViewController.swift; sourceTree = "<group>"; };
 		B538CF8A8D2ECB3A4D8FC3BA /* Pods-myCuisine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myCuisine.debug.xcconfig"; path = "Target Support Files/Pods-myCuisine/Pods-myCuisine.debug.xcconfig"; sourceTree = "<group>"; };
@@ -129,9 +137,11 @@
 		3E13BD3C228D0F3400A09F8A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3E4DAB7B22948894007CD5F7 /* CustomRecipe */,
 				3E13BD2B228D077700A09F8A /* Main.storyboard */,
+				3E4DAB7B22948894007CD5F7 /* CustomRecipe */,
 				3E4C8D82228E31F900CBE1BF /* CustomSetupItem */,
+				3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */,
+				3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -140,12 +150,14 @@
 			isa = PBXGroup;
 			children = (
 				3E13BD27228D077700A09F8A /* NewRecipesViewController.swift */,
-				3E13BD29228D077700A09F8A /* SecondViewController.swift */,
+				3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */,
+				3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */,
+				3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */,
+				3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */,
 				3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */,
 				3E13BD40228D11B100A09F8A /* SignUpViewController.swift */,
 				3E13BD42228D11BD00A09F8A /* LoginViewController.swift */,
-				3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */,
-				3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */,
+				3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -240,6 +252,7 @@
 				3E13BD2F228D077800A09F8A /* Assets.xcassets in Resources */,
 				3E4C8D86228E323A00CBE1BF /* CustomSetupItemCell.xib in Resources */,
 				3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */,
+				3E767183229B6D3F008F40B2 /* SuccessfulSaveView.xib in Resources */,
 				3E4DAB7222930B32007CD5F7 /* Secrets.plist in Resources */,
 				3E4DAB83229488EA007CD5F7 /* RecipeTableViewCell.xib in Resources */,
 				3E4DAB7522937780007CD5F7 /* Default-568h@2x.png in Resources */,
@@ -284,12 +297,17 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/EZYGradientView/EZYGradientView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/QuickLayout/QuickLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SearchTextField/SearchTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/Segmentio/Segmentio.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftEntryKit/SwiftEntryKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -303,12 +321,17 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZYGradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QuickLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SearchTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Segmentio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftEntryKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -330,7 +353,9 @@
 				3E4DAB82229488EA007CD5F7 /* RecipeTableViewCell.swift in Sources */,
 				3E13BD43228D11BD00A09F8A /* LoginViewController.swift in Sources */,
 				3EFB9705228F418300A17297 /* DietItem.swift in Sources */,
-				3E13BD2A228D077700A09F8A /* SecondViewController.swift in Sources */,
+				3E13BD2A228D077700A09F8A /* SavedRecipesViewController.swift in Sources */,
+				3EAE017E2295EE0500E853A2 /* DetailRecipeViewController.swift in Sources */,
+				3EDEA576229A2C6F00D3F0EB /* RecipeListViewController.swift in Sources */,
 				3E13BD26228D077700A09F8A /* AppDelegate.swift in Sources */,
 				3E13BD28228D077700A09F8A /* NewRecipesViewController.swift in Sources */,
 				3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */,
@@ -338,6 +363,7 @@
 				3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */,
 				3E4DAB7A22947E1D007CD5F7 /* Ingredient.swift in Sources */,
 				3E4C8D81228E2DAA00CBE1BF /* SetupViewController.swift in Sources */,
+				3E767182229B6D3F008F40B2 /* SuccessfulSaveView.swift in Sources */,
 				3E4C8D85228E323A00CBE1BF /* CustomSetupItemCell.swift in Sources */,
 				3E4DAB7822947CB2007CD5F7 /* Recipe.swift in Sources */,
 			);
