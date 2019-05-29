@@ -7,8 +7,8 @@
 //
 
 import UIKit
-
-class RecipeTableViewCell: UITableViewCell{
+import SwipeCellKit
+class RecipeTableViewCell: SwipeTableViewCell {
 
     
     

@@ -14,7 +14,7 @@ import SearchTextField
 import SDWebImage
 import Hero
 
-class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, UITableViewDataSource {
+class NewRecipesViewController: RecipeListViewController  {
 
     
     // Base url for searching for recipe
@@ -27,12 +27,12 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
     var host : String?
     var key : String?
     
-    
+    var justLoadedNewRecipes : Bool = false
     
     //Number of recipes to display
     let numOptions = 7
     
-    @IBOutlet weak var recipeTableView: UITableView!
+    let timeUntilNextRefresh = Double(86400)
     
     enum requestType {
         case search
@@ -48,46 +48,37 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
         guard let secrets = getPlist(withName: "Secrets") else {fatalError()}
         host = secrets["Host"]!
         key = secrets["Key"]!
-        configureTableView()
         
         print("CURRENT USER: \(Auth.auth().currentUser!.uid)")
         loadRecipes()
+        print("Just loaded new recipes \(justLoadedNewRecipes)")
         
     }
     
-    override func loadRecipes() {
-        currentUserRef?.addSnapshotListener({ (documentSnapshot, error) in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            let recipesLastChanged = data["recipesLastChanged"] as! Double
-            if Date().timeIntervalSince1970.magnitude - recipesLastChanged > 86400 {
-                print("Loading new recipes...")
-                self.loadNewRecipes(with: data)
+    func loadRecipes() {
+        recipes = [Recipe]()
+        
+        currentUserRef?.getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let data = document.data() {
+                    let recipesLastChanged = data["recipesLastChanged"] as! Double
+                    if Date().timeIntervalSince1970.magnitude - recipesLastChanged > self.timeUntilNextRefresh {
+                        print("Loading new recipes...")
+                        self.loadNewRecipes(with: data)
+                        self.justLoadedNewRecipes = true
+                    } else {
+                        print("Loading current recipes...")
+                        self.loadCurrentRecipes(with: data)
+                    }
+                }
             } else {
-                print("Loading current recipes...")
-                self.loadCurrentRecipes(with: data)
+                print("Document does not exist")
             }
-            
-        })
+        }
         
     }
     
-    //Configures table view to set the delegate and data source properties. It also sets the row height and the custom recipe cell to use for display.
-    override func configureTableView() {
-        recipeTableView.delegate = self
-        recipeTableView.dataSource = self
-        recipeTableView.register(UINib(nibName:"RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "recipeCell")
-        recipeTableView.rowHeight = CGFloat(rowHeight)
 
-        recipeTableView.separatorStyle = .none
-        
-    }
     
 
     
@@ -110,7 +101,7 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
                     if let data = document.data() {
                         let recipe = self.getRecipeFromFirestore(data: data)
                         self.recipes.append(recipe)
-                        self.recipeTableView.reloadData()
+                        self.tableView.reloadData()
                     }
                 } else {
                     print("Document does not exist")
@@ -134,7 +125,7 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
             if response.result.isSuccess {
                 print("Success! Got recipe data")
                 let recipeJSON : JSON = JSON(response.result.value!)
-                print(recipeJSON)
+//                print(recipeJSON)
                 switch type {
                 case .search:
                     self.handleSearchRequest(for: recipeJSON)
@@ -199,7 +190,9 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
             let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
             let getURL = getRecipeURL + "/\(recipeID)/information"
             makeRequest(url: getURL, headers: headers, params: nil, type: .getRecipe)
+            print("recipe list count = \(recipes.count)")
         }
+        
     }
 
     
@@ -209,12 +202,13 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
         let cookingMinutes = recipeJSON["cookingMinutes"].intValue
         let readyInMinutes = recipeJSON["readyInMinutes"].intValue
         let aggregateLikes = recipeJSON["aggregateLikes"].intValue
+        let servings = recipeJSON["servings"].intValue
         let healthScore = recipeJSON["healthScore"].intValue
         let sourceURL = recipeJSON["sourceUrl"].stringValue
         let imageURL = recipeJSON["image"].stringValue
         let creditText = recipeJSON["creditText"].stringValue
         let title = recipeJSON["title"].stringValue
-        let instructions = recipeJSON["instructions"].stringValue
+//        let instructions = recipeJSON["instructions"].stringValue
         var diets = [String]()
         for diet in recipeJSON["diets"].arrayValue {
             diets.append(diet.stringValue)
@@ -234,14 +228,23 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
             cuisines.append(cuisine.stringValue)
         }
         
-        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines)
+        var instructions = [Instruction]()
+        for instJSON in recipeJSON["analyzedInstructions"][0]["steps"].arrayValue {
+            let number = instJSON["number"].intValue
+            let step = instJSON["step"].stringValue
+            instructions.append(Instruction(number: number, step: step))
+        }
+        
+        
+        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines)
+        
         recipes.append(recipe)
         if recipes.count == numOptions {
             saveCurrentRecipes()
         }
         recipe.saveRecipe()
-        print("SAVED RECIPE: \(recipe)")
-        recipeTableView.reloadData()
+//        print("SAVED RECIPE: \(recipe)")
+        tableView.reloadData()
     }
     
     func getPlist(withName name: String) -> [String : String]? {
@@ -255,75 +258,33 @@ class NewRecipesViewController: RecipeListViewController, UITableViewDelegate, U
     }
 
 
-    @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
-        //TODO: Log out the user and send them back to WelcomeViewController
-        do {
-            try Auth.auth().signOut()
-            self.dismiss(animated: true, completion: {})
-            self.navigationController?.popToRootViewController(animated: true)
-            
-        } catch {
-            print("Error signing out")
-        }
-    }
-    @IBAction func refreshPressed(_ sender: UIButton) {
-        recipes = [Recipe]()
-        guard let userRef = currentUserRef else {fatalError()}
-        userRef.getDocument { (document, error) in
-            print("started")
-            if let document = document, document.exists {
-                if let data = document.data() {
-                    self.loadNewRecipes(with: data)
-                }
-            }
-        }
-        
-    }
+//    @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
+//        //TODO: Log out the user and send them back to WelcomeViewController
+//        do {
+//            try Auth.auth().signOut()
+//            self.dismiss(animated: true, completion: {})
+//            self.navigationController?.popToRootViewController(animated: true)
+//
+//        } catch {
+//            print("Error signing out")
+//        }
+//    }
+//
+//    @IBAction func refreshPressed(_ sender: UIButton) {
+//        recipes = [Recipe]()
+//        guard let userRef = currentUserRef else {fatalError()}
+//        userRef.getDocument { (document, error) in
+//            print("started")
+//            if let document = document, document.exists {
+//                if let data = document.data() {
+//                    self.loadNewRecipes(with: data)
+//                }
+//            }
+//        }
+//
+//    }
     
-    //MARK: Table view methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipes.count
-    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = recipeTableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! RecipeTableViewCell
-        let recipe = recipes[indexPath.row]
-        cell.recipeNameLabel.text = recipe.title
-        cell.creditLabel.text = recipe.creditText
-        cell.numberMinutesLabel.text = String(recipe.readyInMinutes)
-        cell.numberIngredientsLabel.text = String(recipe.ingredients.count)
-
-        cell.recipeImageView.sd_setImage(with: URL(string: recipe.imageURL))
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc2 = DetailRecipeViewController()
-        
-        // this enables Hero
-        vc2.hero.isEnabled = true
-        
-        // this configures the built in animation
-        //    vc2.hero.modalAnimationType = .zoom
-        //    vc2.hero.modalAnimationType = .pageIn(direction: .left)
-        //    vc2.hero.modalAnimationType = .pull(direction: .left)
-        //    vc2.hero.modalAnimationType = .autoReverse(presenting: .pageIn(direction: .left))
-        vc2.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .fade)
-        
-//        // lastly, present the view controller like normal
-//        present(vc2, animated: true, completion: nil)
-        
-        performSegue(withIdentifier: "goToDetail", sender: self)
-    }
-    
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! DetailRecipeViewController
-        if let indexPath = recipeTableView.indexPathForSelectedRow {
-            let recipe = recipes[indexPath.row]
-            destinationVC.recipe = recipe
-        }
-    }
     
     //MARK: Firestore methods
     func saveCurrentRecipes() {

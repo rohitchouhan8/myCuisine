@@ -8,17 +8,13 @@
 
 import UIKit
 import Firebase
-class SavedRecipesViewController: RecipeListViewController, UITableViewDelegate, UITableViewDataSource {
-
-    
-
-    @IBOutlet weak var recipeTableView: UITableView!
+import SwipeCellKit
+class SavedRecipesViewController: RecipeListViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         // Do any additional setup after loading the view.
-        configureTableView()
         
         currentUserRef?.addSnapshotListener({ (documentSnapshot, error) in
             guard let document = documentSnapshot else {
@@ -35,7 +31,7 @@ class SavedRecipesViewController: RecipeListViewController, UITableViewDelegate,
         })
     }
     
-    override func loadRecipes() {
+    func loadRecipes() {
         guard let userRef = currentUserRef else {fatalError()}
         userRef.getDocument { (document, error) in
             print("started")
@@ -49,15 +45,15 @@ class SavedRecipesViewController: RecipeListViewController, UITableViewDelegate,
     
     func getRecipesFrom(data : [String : Any]) {
         let recipesCollectionRef = db.collection("recipes")
-        if let savedRecipeIds = data["savedRecipes"] as? [Int] {
-            for recipeId in savedRecipeIds {
-                let recipeDocument = recipesCollectionRef.document(String(recipeId))
+        if let savedRecipeIds = data["savedRecipes"] as? [[String : Any]] {
+            for recipeObj in savedRecipeIds {
+                let recipeDocument = recipesCollectionRef.document(String(recipeObj["id"] as! Int))
                 recipeDocument.getDocument { (document, error) in
                     if let document = document, document.exists {
                         if let data = document.data() {
                             let recipe = self.getRecipeFromFirestore(data: data)
                             self.recipes.append(recipe)
-                            self.recipeTableView.reloadData()
+                            self.tableView.reloadData()
                         }
                     } else {
                         print("Document does not exist")
@@ -66,24 +62,14 @@ class SavedRecipesViewController: RecipeListViewController, UITableViewDelegate,
             }
         }
     }
-    
-    //Configures table view to set the delegate and data source properties. It also sets the row height and the custom recipe cell to use for display.
-    override func configureTableView() {
-        recipeTableView.delegate = self
-        recipeTableView.dataSource = self
-        recipeTableView.register(UINib(nibName:"RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "recipeCell")
-        recipeTableView.rowHeight = CGFloat(rowHeight)
-        
-        recipeTableView.separatorStyle = .none
-        
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipes.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = recipeTableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! RecipeTableViewCell
+
+}
+
+extension SavedRecipesViewController : SwipeTableViewCellDelegate {
+    //Tableview Data source methods
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! RecipeTableViewCell
+        cell.delegate = self
         let recipe = recipes[indexPath.row]
         cell.recipeNameLabel.text = recipe.title
         cell.creditLabel.text = recipe.creditText
@@ -94,34 +80,26 @@ class SavedRecipesViewController: RecipeListViewController, UITableViewDelegate,
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc2 = DetailRecipeViewController()
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
         
-        // this enables Hero
-        vc2.hero.isEnabled = true
-        
-        // this configures the built in animation
-        //    vc2.hero.modalAnimationType = .zoom
-        //    vc2.hero.modalAnimationType = .pageIn(direction: .left)
-        //    vc2.hero.modalAnimationType = .pull(direction: .left)
-        //    vc2.hero.modalAnimationType = .autoReverse(presenting: .pageIn(direction: .left))
-        vc2.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .fade)
-        
-        //        // lastly, present the view controller like normal
-        //        present(vc2, animated: true, completion: nil)
-        
-        performSegue(withIdentifier: "goToDetail", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! DetailRecipeViewController
-        if let indexPath = recipeTableView.indexPathForSelectedRow {
-            let recipe = recipes[indexPath.row]
-            destinationVC.recipe = recipe
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            self.recipes.remove(at: indexPath.row)
+            print("delete cell")
         }
+        
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete-icon")
+        
+        return [deleteAction]
     }
     
-
-
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        options.transitionStyle = .border
+        return options
+    }
 }
 

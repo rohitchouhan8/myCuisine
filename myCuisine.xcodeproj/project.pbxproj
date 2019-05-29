@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		09D2ECA7E92F1D36A689BCF7 /* Pods_myCuisine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03840BD1B6B2386B5698B848 /* Pods_myCuisine.framework */; };
+		3E069AF3229CCE7C007D13A8 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E069AF2229CCE7C007D13A8 /* Instruction.swift */; };
 		3E13BD26228D077700A09F8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD25228D077700A09F8A /* AppDelegate.swift */; };
 		3E13BD28228D077700A09F8A /* NewRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD27228D077700A09F8A /* NewRecipesViewController.swift */; };
 		3E13BD2A228D077700A09F8A /* SavedRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		03840BD1B6B2386B5698B848 /* Pods_myCuisine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_myCuisine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E069AF2229CCE7C007D13A8 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		3E13BD22228D077700A09F8A /* myCuisine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myCuisine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E13BD25228D077700A09F8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E13BD27228D077700A09F8A /* NewRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRecipesViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				3EFB9704228F418300A17297 /* DietItem.swift */,
 				3E4DAB7722947CB2007CD5F7 /* Recipe.swift */,
 				3E4DAB7922947E1D007CD5F7 /* Ingredient.swift */,
+				3E069AF2229CCE7C007D13A8 /* Instruction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				"${BUILT_PRODUCTS_DIR}/Segmentio/Segmentio.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftEntryKit/SwiftEntryKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -333,6 +337,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Segmentio.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftEntryKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -365,6 +370,7 @@
 				3E4C8D81228E2DAA00CBE1BF /* SetupViewController.swift in Sources */,
 				3E767182229B6D3F008F40B2 /* SuccessfulSaveView.swift in Sources */,
 				3E4C8D85228E323A00CBE1BF /* CustomSetupItemCell.swift in Sources */,
+				3E069AF3229CCE7C007D13A8 /* Instruction.swift in Sources */,
 				3E4DAB7822947CB2007CD5F7 /* Recipe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -16,12 +16,13 @@ struct Recipe {
     var readyInMinutes : Int
     var aggregateLikes : Int
     var healthScore : Int
+    var servings : Int 
     var sourceURL : String
     var imageURL : String
     var creditText : String
     var title : String
     var ingredients : [Ingredient]
-    var instructions : String
+    var instructions : [Instruction]
     var diets : [String]
     var cuisines : [String]
     let db = Firestore.firestore()
@@ -33,6 +34,8 @@ struct Recipe {
         }
         return string
     }
+    
+    
     
     func formatToSave() -> [String : Any] {
         var recipeDict = [String : Any]()
@@ -46,15 +49,22 @@ struct Recipe {
         recipeDict["imageURL"] = imageURL
         recipeDict["creditText"] = creditText
         recipeDict["title"] = title
-        recipeDict["instructions"] = instructions
+        
         recipeDict["diets"] = diets
         recipeDict["cuisines"] = cuisines
+        recipeDict["servings"] = servings
         
         var ingredientArray = [[String : Any]]()
         for ing in ingredients {
             ingredientArray.append(ing.toDictionary())
         }
         recipeDict["ingredients"] = ingredientArray
+        
+        var instructionArray = [[String : Any]]()
+        for inst in instructions {
+            instructionArray.append(inst.toDictionary())
+        }
+        recipeDict["instructions"] = instructionArray
         
         return recipeDict
     }
@@ -66,6 +76,7 @@ struct Recipe {
     
     func saveRecipeIdForUser() {
         let currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
-        currentUserRef.updateData(["savedRecipes" : FieldValue.arrayUnion([id])])
+        let savedRecipe = ["id" : id, "date" : Date().timeIntervalSince1970.magnitude] as [String : Any]
+        currentUserRef.setData(["savedRecipes" : FieldValue.arrayUnion([savedRecipe])], merge: true)
     }
 }

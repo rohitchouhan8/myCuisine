@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import SwipeCellKit
 
-class RecipeListViewController: UIViewController {
+class RecipeListViewController: UITableViewController {
     let db = Firestore.firestore() //Firestore database
     var currentUserRef : DocumentReference? //Reference to the current user's collection in Firestore
     let rowHeight = 240
@@ -19,18 +20,56 @@ class RecipeListViewController: UIViewController {
         super.viewDidLoad()
         currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         // Do any additional setup after loading the view.
-        
+        configureTableView()
     }
     
-    //Configures table view to set the delegate and data source properties. It also sets the row height and the custom recipe cell to use for display.
-    func configureTableView() {
-        
+    //MARK: Table view methods
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return recipes.count
     }
     
-    func loadRecipes() {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! RecipeTableViewCell
+        let recipe = recipes[indexPath.row]
+        cell.recipeNameLabel.text = recipe.title
+        cell.creditLabel.text = recipe.creditText
+        cell.numberMinutesLabel.text = String(recipe.readyInMinutes)
+        cell.numberIngredientsLabel.text = String(recipe.ingredients.count)
         
+        cell.recipeImageView.sd_setImage(with: URL(string: recipe.imageURL))
+        return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc2 = DetailRecipeViewController()
+        
+        // this enables Hero
+        vc2.hero.isEnabled = true
+        
+        // this configures the built in animation
+        //    vc2.hero.modalAnimationType = .zoom
+        //    vc2.hero.modalAnimationType = .pageIn(direction: .left)
+        //    vc2.hero.modalAnimationType = .pull(direction: .left)
+        //    vc2.hero.modalAnimationType = .autoReverse(presenting: .pageIn(direction: .left))
+        vc2.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .fade)
+        
+        //        // lastly, present the view controller like normal
+        //        present(vc2, animated: true, completion: nil)
+        
+        performSegue(withIdentifier: "goToDetail", sender: self)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! DetailRecipeViewController
+        if let indexPath = tableView.indexPathForSelectedRow {
+            let recipe = recipes[indexPath.row]
+            destinationVC.recipe = recipe
+        }
+    }
+    
 
+    //Configures table view to set the delegate and data source properties. It also sets the row height and the custom recipe cell to use for display.
 
     func getRecipeFromFirestore(data: [String : Any]) -> Recipe {
         
@@ -55,9 +94,10 @@ class RecipeListViewController: UIViewController {
         //        let title = recipeJSON["title"].stringValue
         let title = data["title"] as! String
         //        let instructions = recipeJSON["instructions"].stringValue
-        let instructions = data["instructions"] as! String
         
         let diets = data["diets"] as! [String]
+        
+        let servings = data["servings"] as! Int
         //        var diets = [String]()
         //        for diet in recipeJSON["diets"].arrayValue {
         //            diets.append(diet.stringValue)
@@ -87,10 +127,26 @@ class RecipeListViewController: UIViewController {
         //        }
         let cuisines = data["cuisines"] as! [String]
         
-        //
-        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines)
+        var instructions = [Instruction]()
+        for instFirestore in data["instructions"] as! [Any] {
+            let instObject = instFirestore as! [String : Any]
+            let number = instObject["number"] as! Int
+            let step = instObject["step"] as! String
+            instructions.append(Instruction(number: number, step: step))
+        }
+        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines)
         
         return recipe
+    }
+    
+    //Configures table view to set the delegate and data source properties. It also sets the row height and the custom recipe cell to use for display.
+    func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName:"RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "recipeCell")
+        tableView.rowHeight = CGFloat(rowHeight)
+        tableView.separatorStyle = .none
+        
     }
 
 

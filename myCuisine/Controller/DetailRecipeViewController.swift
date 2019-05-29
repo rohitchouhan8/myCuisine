@@ -71,17 +71,17 @@ class DetailRecipeViewController: UIViewController {
             segmentStates: SegmentioStates(
                 defaultState: SegmentioState(
                     backgroundColor: UIColor(red:0.16, green:0.22, blue:0.27, alpha:1.0),
-                    titleFont: UIFont.systemFont(ofSize: UIFont.systemFontSize),
+                    titleFont: UIFont.systemFont(ofSize: UIFont.systemFontSize + 5),
                     titleTextColor: UIColor(red:0.16, green:0.22, blue:0.27, alpha:1.0)
                 ),
                 selectedState: SegmentioState(
                     backgroundColor: UIColor(red:0.90, green:0.69, blue:0.18, alpha:1.0),
-                    titleFont: UIFont.systemFont(ofSize: UIFont.systemFontSize),
-                    titleTextColor: UIColor(red:0.16, green:0.22, blue:0.27, alpha:1.0)
+                    titleFont: UIFont.systemFont(ofSize: UIFont.systemFontSize + 5),
+                    titleTextColor: UIColor(red:1.00, green:0.79, blue:0.14, alpha:1.0)
                 ),
                 highlightedState: SegmentioState(
                     backgroundColor: UIColor.lightGray.withAlphaComponent(0.6),
-                    titleFont: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize),
+                    titleFont: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize + 5),
                     titleTextColor: .black
                 )
             )
@@ -106,7 +106,7 @@ class DetailRecipeViewController: UIViewController {
                     self.ingredientsLabel.text = "Ingredients"
                     break
                 case 1:
-                    self.ingredientsTextView.text = recipe.instructions
+                    self.ingredientsTextView.text = recipe.instructions[0].step
                     self.numberIngredientsLabel.text = String(recipe.readyInMinutes) + " min"
                     self.ingredientsLabel.text = "Instructions"
                     break
@@ -119,6 +119,7 @@ class DetailRecipeViewController: UIViewController {
             }
         }
         
+        segmentedControl.selectedSegmentioIndex = 0
         
     }
     
