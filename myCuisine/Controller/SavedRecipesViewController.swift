@@ -86,6 +86,10 @@ extension SavedRecipesViewController : SwipeTableViewCellDelegate {
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             // handle action by updating model with deletion
             self.recipes.remove(at: indexPath.row)
+            let recipesToSave = self.recipes.map({(recipe : Recipe) -> [String : Any] in
+                return ["id" : recipe.id, "date" : Date().timeIntervalSince1970.magnitude] as [String : Any]
+            })
+            self.currentUserRef?.setData(["savedRecipes" : recipesToSave], merge: true)
             print("delete cell")
         }
         
@@ -100,6 +104,12 @@ extension SavedRecipesViewController : SwipeTableViewCellDelegate {
         options.expansionStyle = .destructive
         options.transitionStyle = .border
         return options
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        let vc = segue.destination as! DetailRecipeViewController
+        vc.isSavedRecipe = true
     }
 }
 

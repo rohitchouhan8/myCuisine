@@ -13,6 +13,7 @@ import SwiftyJSON
 import SearchTextField
 import SDWebImage
 import Hero
+import DGElasticPullToRefresh
 
 class NewRecipesViewController: RecipeListViewController  {
 
@@ -50,19 +51,42 @@ class NewRecipesViewController: RecipeListViewController  {
         key = secrets["Key"]!
         
         print("CURRENT USER: \(Auth.auth().currentUser!.uid)")
-        loadRecipes()
+        loadRecipes(override: false)
         print("Just loaded new recipes \(justLoadedNewRecipes)")
+        
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: Selector(("refreshButtonPressed")))
+        navigationController?.navigationItem.rightBarButtonItem = refreshButton
         
     }
     
-    func loadRecipes() {
+    func refreshButtonPressed() {
+        
+    }
+    
+//    override func configureTableView() {
+//        super.configureTableView()
+//        // Initialize tableView
+//        let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+//        loadingView.tintColor = UIColor(red: 78/255.0, green: 221/255.0, blue: 200/255.0, alpha: 1.0)
+//        tableView.dg_addPullToRefreshWithActionHandler({ [weak self] () -> Void in
+//            // Add your logic here
+//            self?.loadRecipes(override: true)
+//            // Do not forget to call dg_stopLoading() at the end
+//            self?.tableView.dg_stopLoading()
+//            }, loadingView: loadingView)
+//        tableView.dg_setPullToRefreshFillColor(UIColor(red: 57/255.0, green: 67/255.0, blue: 89/255.0, alpha: 1.0))
+//        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
+//    }
+    
+    
+    func loadRecipes(override: Bool) {
         recipes = [Recipe]()
         
         currentUserRef?.getDocument { (document, error) in
             if let document = document, document.exists {
                 if let data = document.data() {
-                    let recipesLastChanged = data["recipesLastChanged"] as! Double
-                    if Date().timeIntervalSince1970.magnitude - recipesLastChanged > self.timeUntilNextRefresh {
+                    let recipesLastChanged = data["recipesLastChanged"] as? Double ?? 0.0
+                    if (Date().timeIntervalSince1970.magnitude - recipesLastChanged > self.timeUntilNextRefresh) || override {
                         print("Loading new recipes...")
                         self.loadNewRecipes(with: data)
                         self.justLoadedNewRecipes = true
@@ -171,6 +195,7 @@ class NewRecipesViewController: RecipeListViewController  {
                 accum += cui.value
                 if (rnd < accum) {
                     resultArray.append(cui.key)
+                    cuisineProbabilities.removeValue(forKey: cui.key)
                     break
                 }
             }
@@ -206,7 +231,7 @@ class NewRecipesViewController: RecipeListViewController  {
         let healthScore = recipeJSON["healthScore"].intValue
         let sourceURL = recipeJSON["sourceUrl"].stringValue
         let imageURL = recipeJSON["image"].stringValue
-        let creditText = recipeJSON["creditText"].stringValue
+        let creditText = recipeJSON["creditsText"].stringValue
         let title = recipeJSON["title"].stringValue
 //        let instructions = recipeJSON["instructions"].stringValue
         var diets = [String]()
@@ -257,6 +282,7 @@ class NewRecipesViewController: RecipeListViewController  {
         return nil
     }
 
+    
 
 //    @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
 //        //TODO: Log out the user and send them back to WelcomeViewController

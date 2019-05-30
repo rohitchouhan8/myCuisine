@@ -31,6 +31,7 @@
 		3E767182229B6D3F008F40B2 /* SuccessfulSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */; };
 		3E767183229B6D3F008F40B2 /* SuccessfulSaveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */; };
 		3EAE017E2295EE0500E853A2 /* DetailRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */; };
+		3EDC576222A0604400E78269 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC576122A0604400E78269 /* SettingsTableViewController.swift */; };
 		3EDEA576229A2C6F00D3F0EB /* RecipeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */; };
 		3EFB9705228F418300A17297 /* DietItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB9704228F418300A17297 /* DietItem.swift */; };
 		3EFB9709228F9F7A00A17297 /* FoodSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */; };
@@ -63,6 +64,7 @@
 		3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessfulSaveView.swift; sourceTree = "<group>"; };
 		3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SuccessfulSaveView.xib; sourceTree = "<group>"; };
 		3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeViewController.swift; sourceTree = "<group>"; };
+		3EDC576122A0604400E78269 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewController.swift; sourceTree = "<group>"; };
 		3EFB9704228F418300A17297 /* DietItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietItem.swift; sourceTree = "<group>"; };
 		3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSelectorViewController.swift; sourceTree = "<group>"; };
@@ -154,13 +156,14 @@
 			children = (
 				3E13BD27228D077700A09F8A /* NewRecipesViewController.swift */,
 				3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */,
+				3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */,
 				3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */,
 				3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */,
-				3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */,
 				3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */,
 				3E13BD40228D11B100A09F8A /* SignUpViewController.swift */,
 				3E13BD42228D11BD00A09F8A /* LoginViewController.swift */,
 				3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */,
+				3EDC576122A0604400E78269 /* SettingsTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/DGElasticPullToRefresh/DGElasticPullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/EZYGradientView/EZYGradientView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -325,6 +329,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DGElasticPullToRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZYGradientView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -363,6 +368,7 @@
 				3EDEA576229A2C6F00D3F0EB /* RecipeListViewController.swift in Sources */,
 				3E13BD26228D077700A09F8A /* AppDelegate.swift in Sources */,
 				3E13BD28228D077700A09F8A /* NewRecipesViewController.swift in Sources */,
+				3EDC576222A0604400E78269 /* SettingsTableViewController.swift in Sources */,
 				3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */,
 				3EFB9709228F9F7A00A17297 /* FoodSelectorViewController.swift in Sources */,
 				3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */,

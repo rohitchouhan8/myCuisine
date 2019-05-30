@@ -16,7 +16,7 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
     var dietLabels = [DietItem(name: "pescetarian"), DietItem(name: "lacto vegetarian"), DietItem(name: "ovo vegetarian"), DietItem(name: "vegan"), DietItem(name: "vegetarian")]
     //pescetarian, lacto vegetarian, ovo vegetarian, vegan, and vegetarian
 
-
+    var isFromSetting = false 
     
     var setupArray = [[DietItem]]()
     var stepNumber = 0
@@ -36,7 +36,6 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         setupArray.append(cuisine)
         setupArray.append(dietLabels)
         nextButton.layer.cornerRadius = 8
-        
         
     }
     
@@ -83,7 +82,11 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         stepNumber += 1
         if stepNumber == setupArray.count {
             saveData()
-            performSegue(withIdentifier: "goToFoods", sender: self)
+            if isFromSetting {
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                performSegue(withIdentifier: "goToFoods", sender: self)
+            }
         } else if stepNumber == setupArray.count - 1 {
             nextButton.setTitle("Submit", for: .normal)
             setupTableView.reloadData()
@@ -108,7 +111,7 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
     func saveData() {
         let currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         let formattedData = formatData()
-        currentUserRef.setData(formattedData) { (error) in
+        currentUserRef.setData(formattedData, merge: true) { (error) in
             if let err = error {
                 print("Error writing document: \(err)")
             } else {

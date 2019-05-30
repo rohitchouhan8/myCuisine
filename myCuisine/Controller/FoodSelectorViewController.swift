@@ -18,6 +18,7 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
     
     var selectedFoods = [String]()
     
+    var isFromSetting = false 
 
     @IBOutlet weak var searchTextField: SearchTextField!
     @IBOutlet weak var selectedFoodsTableView: UICollectionView!
@@ -40,6 +41,24 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
         searchTextField.attributedPlaceholder = NSAttributedString(string: "Search Foods",
                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
+        if isFromSetting {
+            loadPreviousFoods(from: "disliked")
+        }
+        
+    }
+    
+    func loadPreviousFoods(from key: String) {
+        print("loading previous foods")
+        let currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
+        currentUserRef.getDocument { (document, error) in
+            if let data = document?.data() {
+                self.selectedFoods = data[key] as! [String]
+                self.foodsTableView.reloadData()
+            } else {
+                print("Error retrieving data, \(String(describing: error))")
+            }
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -52,6 +71,11 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
         cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.9)
         cell.layer.cornerRadius = 8
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedFoods.remove(at: indexPath.row)
+        foodsTableView.reloadData()
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -69,7 +93,7 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
         }
         searchTextField.endEditing(true)
         searchTextField.filterStrings([String]())
-        
+        searchTextField.text = ""
     }
     /*
      // MARK: - Navigation
@@ -85,11 +109,21 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
             titleLabel.text = "Intolerable Foods"
             nextButton.setTitle("Submit", for: .normal)
             save(key: "disliked", data: selectedFoods)
-            selectedFoods = [String]()
+            if isFromSetting {
+                loadPreviousFoods(from: "intolerable")
+            } else {
+                selectedFoods = [String]()
+            }
+            
             foodsTableView.reloadData()
         } else {
             save(key: "intolerable", data: selectedFoods)
-            performSegue(withIdentifier: "goToMain", sender: self)
+            if isFromSetting{
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                performSegue(withIdentifier: "goToMain", sender: self)
+            }
+            
         }
         
     }

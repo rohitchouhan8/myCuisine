@@ -23,6 +23,8 @@ class DetailRecipeViewController: UIViewController {
     
     @IBOutlet weak var saveButton: UIButton!
     
+    var isSavedRecipe : Bool = false
+    
     var recipe : Recipe?
     var image : UIImage?
     
@@ -37,7 +39,9 @@ class DetailRecipeViewController: UIViewController {
             imageView.sd_setImage(with: URL(string: recipe.imageURL))
         }
         setupSegmentio()
-        // Do any additional setup after loading the view.
+        if isSavedRecipe {
+            saveButton.isHidden = true
+        }
     }
     
     func setupSegmentio() {
@@ -77,7 +81,7 @@ class DetailRecipeViewController: UIViewController {
                 selectedState: SegmentioState(
                     backgroundColor: UIColor(red:0.90, green:0.69, blue:0.18, alpha:1.0),
                     titleFont: UIFont.systemFont(ofSize: UIFont.systemFontSize + 5),
-                    titleTextColor: UIColor(red:1.00, green:0.79, blue:0.14, alpha:1.0)
+                    titleTextColor: UIColor(red:0.16, green:0.22, blue:0.27, alpha:1.0)
                 ),
                 highlightedState: SegmentioState(
                     backgroundColor: UIColor.lightGray.withAlphaComponent(0.6),
