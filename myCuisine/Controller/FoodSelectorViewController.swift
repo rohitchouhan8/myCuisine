@@ -68,7 +68,7 @@ class FoodSelectorViewController: UIViewController, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = foodsTableView.dequeueReusableCell(withReuseIdentifier: "setupItemCell", for: indexPath) as! CustomSetupItemCell
         cell.name.text = selectedFoods[indexPath.row]
-        cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.9)
+        cell.image.backgroundColor = UIColor(named: "Main Green")?.withAlphaComponent(1.0)
         cell.layer.cornerRadius = 8
         return cell
     }

@@ -110,7 +110,11 @@ class DetailRecipeViewController: UIViewController {
                     self.ingredientsLabel.text = "Ingredients"
                     break
                 case 1:
-                    self.ingredientsTextView.text = recipe.instructions[0].step
+                    if recipe.instructions.count > 0 {
+                        self.ingredientsTextView.text = recipe.ingredients[0].originalName
+                    } else {
+                        self.ingredientsTextView.text = "Unable to find recipe instructions: please visit \(recipe.sourceURL) for original recipe"
+                    }
                     self.numberIngredientsLabel.text = String(recipe.readyInMinutes) + " min"
                     self.ingredientsLabel.text = "Instructions"
                     break
@@ -128,16 +132,13 @@ class DetailRecipeViewController: UIViewController {
     }
     
     
-    @IBAction func dismissButtonPressed(_ sender: Any) {
-        print("dismiss button pressed")
-        self.dismiss(animated: true, completion: nil)
-    }
+
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         print("save button pressed")
         recipe?.saveRecipeIdForUser()
         displaySuccessfulSave()
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func displaySuccessfulSave() {
@@ -159,7 +160,7 @@ class DetailRecipeViewController: UIViewController {
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.9)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.4)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
-        let colors: [UIColor] = [.yellow, .green]
+        let colors: [UIColor] = [UIColor(named: "Main Green") ?? .green, UIColor(named: "Accent") ?? .blue]
         attributes.entryBackground = .gradient(gradient: .init(colors: colors, startPoint: .zero, endPoint: CGPoint(x: 1, y: 1)))
         attributes.shadow = .active(with: .init(color: .black, opacity: 0.3, radius: 10, offset: .zero))
         attributes.roundCorners = .all(radius: 16)
@@ -172,8 +173,8 @@ class DetailRecipeViewController: UIViewController {
         
         // Generate top floating entry and set some properties
         
-        let title = EKProperty.LabelContent(text: "Success!", style: .init(font: UIFont.systemFont(ofSize: 20), color: .black))
-        let description = EKProperty.LabelContent(text: "Saved your recipe.", style: .init(font: UIFont.systemFont(ofSize: 18), color: .black))
+        let title = EKProperty.LabelContent(text: "Success!", style: .init(font: UIFont(name: "Helvetica Neue", size: 20) ?? UIFont.systemFont(ofSize: 20), color: UIColor(named: "Dark Gray") ?? .black))
+        let description = EKProperty.LabelContent(text: "Saved your recipe.", style: .init(font: UIFont(name: "Helvetica Neue-Thin", size: 20) ?? UIFont.systemFont(ofSize: 16), color: UIColor(named: "Dark Gray") ?? .black))
 
         let image = EKProperty.ImageContent(image: UIImage(named: "tick")!, size: CGSize(width: 35, height: 35))
         let simpleMessage = EKSimpleMessage(image: image, title: title, description: description)

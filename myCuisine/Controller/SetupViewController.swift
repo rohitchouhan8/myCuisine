@@ -51,11 +51,9 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         cell.layer.cornerRadius = 16
         cell.layer.masksToBounds = true
         if dataSource[indexPath.row].selected {
-            // Yellow background
-            cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.85)
+            cell.image.backgroundColor = UIColor(named: "Main Green")
         } else {
-            //Gray background
-            cell.image.backgroundColor = UIColor(red: 0.16, green: 0.22, blue: 0.27, alpha: 0.85)
+            cell.image.backgroundColor = UIColor(named: "Dark Gray")
         }
 
         return cell
@@ -66,9 +64,9 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         let dataSource = setupArray[stepNumber]
         dataSource[indexPath.row].selected = !dataSource[indexPath.row].selected
         if dataSource[indexPath.row].selected {
-            cell.image.backgroundColor = UIColor(red:0.90, green:0.69, blue:0.18, alpha: 0.85)
+            cell.image.backgroundColor = UIColor(named: "Main Green")
         } else {
-            cell.image.backgroundColor = UIColor(red: 0.16, green: 0.22, blue: 0.27, alpha: 0.85)
+            cell.image.backgroundColor = UIColor(named: "Dark Gray")
         }
     }
     

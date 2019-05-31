@@ -7,61 +7,67 @@
 //
 
 import UIKit
+import Firebase
 
-class SettingsTableViewController: UITableViewController {
+class SettingsViewController: UIViewController {
     let settings = ["Food Preferences", "Cusines/Diet"]
+    @IBOutlet weak var cuisinesButton: UIButton!
+    @IBOutlet weak var foodPreferencesButton: UIButton!
+    @IBOutlet weak var logoutButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        foodPreferencesButton.layer.cornerRadius = 8
+        cuisinesButton.layer.cornerRadius = 8
+        logoutButton.layer.cornerRadius = 8
+        updateNavBar()
+        updateTabBar()
+    }
+    func updateNavBar() {
+        guard let navBar = navigationController?.navigationBar else {fatalError()}
+        navBar.tintColor = UIColor(named: "Dark Gray") ?? .black
+        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : navBar.tintColor!]
+        
+    }
+    func updateTabBar() {
+        guard let tabBar = tabBarController?.tabBar else {fatalError()}
+        tabBar.unselectedItemTintColor = UIColor(named: "Main Green") ?? .green
+    }
+//
+    @IBAction func cuisinesButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToCuisine", sender: self)
+        
     }
 
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+    @IBAction func foodPreferencesButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToFood", sender: self)
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return settings.count
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath)
-        cell.textLabel?.text = settings[indexPath.row]
-//         Configure the cell...
-
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let settingName = settings[indexPath.row]
-        switch settingName {
-        case "Food Preferences":
-            performSegue(withIdentifier: "goToFood", sender: self)
-        default:
-            performSegue(withIdentifier: "goToCuisine", sender: self)
+    @IBAction func logoutPressed(_ sender: UIButton) {
+        //TODO: Log out the user and send them back to WelcomeViewController
+        do {
+            try Auth.auth().signOut()
+            performSegue(withIdentifier: "unwindToMain", sender: self)
+            
+        } catch {
+            print("Error signing out")
         }
     }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segue.identifier {
         case "goToFood":
             let destination = segue.destination as! FoodSelectorViewController
-            destination.isFromSetting = true 
-        default:
+            destination.isFromSetting = true
+        case "goToCuisine":
             let destination = segue.destination as! SetupViewController
             destination.isFromSetting = true
+        default:
+            break
         }
     }
+    
+
     
 
     /*

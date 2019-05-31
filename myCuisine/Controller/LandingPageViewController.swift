@@ -35,4 +35,6 @@ class LandingPageViewController: UIViewController {
     @IBAction func signInButtonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "goToSignUp", sender: self)
     }
+    
+    @IBAction func unwindToMain(segue:UIStoryboardSegue) { }
 }

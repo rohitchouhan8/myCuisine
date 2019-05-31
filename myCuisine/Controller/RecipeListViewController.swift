@@ -21,6 +21,20 @@ class RecipeListViewController: UITableViewController {
         currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         // Do any additional setup after loading the view.
         configureTableView()
+        updateNavBar()
+        updateTabBar()
+    }
+    
+    func updateTabBar() {
+        guard let tabBar = tabBarController?.tabBar else {fatalError()}
+        tabBar.unselectedItemTintColor = UIColor(named: "Main Green") ?? .green
+    }
+
+    func updateNavBar() {
+        guard let navBar = navigationController?.navigationBar else {fatalError()}
+        navBar.tintColor = UIColor(named: "Dark Gray") ?? .black
+        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : navBar.tintColor!]
+        
     }
     
     //MARK: Table view methods
