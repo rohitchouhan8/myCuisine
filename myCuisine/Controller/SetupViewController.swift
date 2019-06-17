@@ -25,6 +25,7 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     @IBOutlet weak var setupTableView: UICollectionView!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,12 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         setupArray.append(cuisine)
         setupArray.append(dietLabels)
-        nextButton.layer.cornerRadius = 8
+        nextButton.layer.cornerRadius = 16
+        
+        if isFromSetting {
+            self.title = "Favorite Cuisines"
+            titleLabel.isHidden = true
+        }
         
     }
     
@@ -87,23 +93,14 @@ class SetupViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
         } else if stepNumber == setupArray.count - 1 {
             nextButton.setTitle("Submit", for: .normal)
+            if isFromSetting {
+                self.title = "Diet Preferences"
+            }
             setupTableView.reloadData()
         } else {
             setupTableView.reloadData()
         }
         
-//        if stepNumber == setupArray.count - 1 {
-//            saveData()
-//            performSegue(withIdentifier: "goToMain", sender: self)
-//        } else {
-//
-//            if stepNumber == setupArray.count - 2 {
-//                nextButton.titleLabel?.text = "Submit"
-//            }
-//            print(stepNumber)
-//            stepNumber += 1
-//            setupTableView.reloadData()
-//        }
     }
     
     func saveData() {

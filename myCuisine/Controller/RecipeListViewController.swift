@@ -24,12 +24,21 @@ class RecipeListViewController: UITableViewController {
         updateNavBar()
         updateTabBar()
     }
-    
+    /**
+     Update the tab bar display
+     - Parameters: None
+     - Returns: None
+     */
     func updateTabBar() {
         guard let tabBar = tabBarController?.tabBar else {fatalError()}
         tabBar.unselectedItemTintColor = UIColor(named: "Main Green") ?? .green
     }
 
+    /**
+     Update the navigation bar display
+     - Parameters: None
+     - Returns: None
+     */
     func updateNavBar() {
         guard let navBar = navigationController?.navigationBar else {fatalError()}
         navBar.tintColor = UIColor(named: "Dark Gray") ?? .black
@@ -83,8 +92,11 @@ class RecipeListViewController: UITableViewController {
     }
     
 
-    //Configures table view to set the delegate and data source properties. It also sets the row height and the custom recipe cell to use for display.
-
+    /**
+     Get the recipe stored in firestore and save it as a recipe
+     - Parameters: data to extract the recipe from
+     - Returns: a Recipe object 
+     */
     func getRecipeFromFirestore(data: [String : Any]) -> Recipe {
         
         //        let id = recipeJSON["id"].intValue
@@ -123,7 +135,7 @@ class RecipeListViewController: UITableViewController {
             let originalName = ingObject["originalName"] as! String
             let name = ingObject["name"] as! String
             let unit = ingObject["unit"] as! String
-            let amount = ingObject["amount"] as! Int
+            let amount = ingObject["amount"] as! Double 
             let id = ingObject["id"] as! Int
             ingredients.append(Ingredient(originalName: originalName, name: name, unit: unit, amount: amount, id: id))
         }
@@ -148,7 +160,18 @@ class RecipeListViewController: UITableViewController {
             let step = instObject["step"] as! String
             instructions.append(Instruction(number: number, step: step))
         }
-        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines)
+        
+        var nutrients = [Nutrient]()
+        for nutFirestore in data["nutrients"] as! [Any] {
+            let nutObject = nutFirestore as! [String : Any]
+            let name = nutObject["name"] as! String
+            let amount = nutObject["amount"] as! Int
+            let unit = nutObject["unit"] as! String
+            let percentOfDailyNeeds = nutObject["percentOfDailyNeeds"] as! Double
+            nutrients.append(Nutrient(name: name, amount: amount, unit: unit, percentOfDailyNeeds: percentOfDailyNeeds))
+        }
+        
+        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines, nutrients: nutrients)
         
         return recipe
     }

@@ -24,45 +24,93 @@ class NewRecipesViewController: RecipeListViewController  {
     //Base url for getting a recipe
     let getRecipeURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes"
     
+    // Base url for getting random recipes
+    let randomRecipeURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random"
+    
     //Key and host for headers for API requests
     var host : String?
     var key : String?
     
+    //Indicator if we have already loaded the new recipes and we don't need to do it again.
     var justLoadedNewRecipes : Bool = false
     
     //Number of recipes to display
     let numOptions = 7
     
-    let timeUntilNextRefresh = Double(86400)
     
+    let timeUntilNewRecipes = Double(86400)
+    
+    //A count of the most preferred cuisines for the user
+    var cuisineCount =  [String : Double]()
+    
+    // A list of the diet restrictions for the user
+    var dietLabels = [String]()
+    
+    // A list of disliked foods for the user
+    var dislikedFoods = [String]()
+    
+    //A list of the intolerable foods for the user
+    var intolerableFoods = [String]()
+    
+    // A count of the most preferred ingredients for the user
+    var ingredientCount = [String : Double]()
+    
+    // Different types of networking requests
     enum requestType {
         case search
         case getRecipe
+        case getRandom
     }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // Establish the firestore document for the user
         currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
-//        loadUserPreferences()
+        
+        // Get the Spoonacular host and key for networking headers
         guard let secrets = getPlist(withName: "Secrets") else {fatalError()}
         host = secrets["Host"]!
         key = secrets["Key"]!
         
-        print("CURRENT USER: \(Auth.auth().currentUser!.uid)")
-        loadRecipes(override: false)
-        print("Just loaded new recipes \(justLoadedNewRecipes)")
-        
     }
     
-    func refreshButtonPressed() {
+    override func viewWillAppear(_ animated: Bool) {
+        loadRecipes(override: false)
+        print("CURRENT USER: \(Auth.auth().currentUser!.uid)")
+        
+        print("Just loaded new recipes \(justLoadedNewRecipes)")
+    }
+    
+    func refreshRecipeList() {
+        loadRecipes(override: false)
+    }
+    
+    
+    /**
+     Get new custom recipes and display them
+     - Parameters: sender- the button pressed
+     - Returns: None
+     */
+    @IBAction func customRecipesButtonPressed(_ sender: Any) {
         loadRecipes(override: true)
     }
     
-
+    /**
+     Get recipes recipes and display them
+     - Parameters: sender- the button pressed
+     - Returns: None
+     */
+    @IBAction func randomRecipeButtonPressed(_ sender: Any) {
+        getRandomRecipes()
+        
+    }
     
-    
+    /**
+     Loads recipes for the user. If new custom recipes have not been loaded in 24 hours, then new custom recipes will be loaded. Otherwise, the current recipes will be loaded.
+     - Parameters: override- if true, immediately load new recipes regardless of the timestamp
+     - Returns: None
+     */
     func loadRecipes(override: Bool) {
         recipes = [Recipe]()
         
@@ -70,7 +118,7 @@ class NewRecipesViewController: RecipeListViewController  {
             if let document = document, document.exists {
                 if let data = document.data() {
                     let recipesLastChanged = data["recipesLastChanged"] as? Double ?? 0.0
-                    if (Date().timeIntervalSince1970.magnitude - recipesLastChanged > self.timeUntilNextRefresh) || override {
+                    if (Date().timeIntervalSince1970.magnitude - recipesLastChanged > self.timeUntilNewRecipes) || override {
                         print("Loading new recipes...")
                         self.loadNewRecipes(with: data)
                         self.justLoadedNewRecipes = true
@@ -89,19 +137,31 @@ class NewRecipesViewController: RecipeListViewController  {
 
     
 
-    
+    /**
+     Loads new custom recipes.
+     - Parameters: userData - all of the information about the user's account activity
+     - Returns: None
+     */
     func loadNewRecipes(with userData: [String : Any]) {
-        let cuisineCount = (userData["cuisineCount"] as! [String : Int])
-        let dietLabels = (userData["selectedDL"] as! [String])
-        let dislikedFoods = (userData["disliked"] as! [String])
-        let intolerableFoods = (userData["intolerable"] as! [String])
-        self.makeSearchRequest(cuisineCount: cuisineCount, dietLables: dietLabels, dislikedFoods: dislikedFoods, intolerableFoods: intolerableFoods)
+        // Get user preferences
+        cuisineCount = (userData["cuisineCount"] as! [String : Double])
+        dietLabels = (userData["selectedDL"] as! [String])
+        dislikedFoods = (userData["disliked"] as! [String])
+        intolerableFoods = (userData["intolerable"] as! [String])
+        ingredientCount = (userData["ingredientCount"] as? [String : Double]) ?? [String : Double]()
+        self.makeSearchRequest(cuisineCount: cuisineCount, dietLables: dietLabels, dislikedFoods: dislikedFoods, intolerableFoods: intolerableFoods, ingredientCount: ingredientCount)
  
     }
     
+    /**
+     Loads most recently viewed recipes.
+     - Parameters: userData - all of the information about the user's account activity
+     - Returns: None
+     */
     func loadCurrentRecipes(with userData: [String : Any]) {
         let recipesCollectionRef = db.collection("recipes")
         let recipeIdArray = userData["currentRecipes"] as! [Int]
+        // Load every recipe by accessing it from the recipe document
         for recipeId in recipeIdArray {
             let recipeDocument = recipesCollectionRef.document(String(recipeId))
             recipeDocument.getDocument { (document, error) in
@@ -117,62 +177,95 @@ class NewRecipesViewController: RecipeListViewController  {
             }
         }
     }
-
-
-    
-    
     
     //MARK: Networking requests to Spoonacular
+    
+    /**
+     Use Alamofire to make a networking request to Spoonacular
+     - Parameters:
+        url - address of the networking endpoint
+        headers - host and key of the request
+        params - any parameters for the query
+     - Returns: None
+     */
     func makeRequest(url: String, headers: [String : String], params : [String : Any]?, type: requestType) {
         
         let encoding = URLEncoding(arrayEncoding: .noBrackets)
         
         
-        Alamofire.request(url, method: .get, parameters: params, encoding: encoding, headers: headers).responseJSON {
+        let request = Alamofire.request(url, method: .get, parameters: params, encoding: encoding, headers: headers).responseJSON {
             response in
             if response.result.isSuccess {
                 print("Success! Got recipe data")
                 let recipeJSON : JSON = JSON(response.result.value!)
-//                print(recipeJSON)
+                // choose where to send the data to process depending on the request type
                 switch type {
                 case .search:
                     self.handleSearchRequest(for: recipeJSON)
                     break
                 case .getRecipe:
+                    print("recipe request \(String(describing: response.request))")
+//                    print("recipe info \(recipeJSON)")
                     self.handleGetRecipeRequest(for: recipeJSON)
                     break
+                case .getRandom:
+                    self.handleGetRandomRequest(for: recipeJSON)
                 }
                 
             } else {
                 print("Error \(response.result.error!)")
             }
         }
+        print(request)
     }
     
-    func makeSearchRequest(cuisineCount: [String: Int], dietLables : [String], dislikedFoods : [String], intolerableFoods : [String]) {
-        let cuisine = getPreferredCuisine(cuisineCount: cuisineCount, numCuisines: 3)
-        let params = ["limitLicense" : true,
+    /**
+     Create all of the components for the recipe search.
+     - Parameters:
+     cuisineCount - A count of the most preferred cuisines for the user
+     dietLabels - A list of the diet restrictions for the user
+     dislikedFoods - A list of disliked foods for the user
+     intolerableFoods - A list of the intolerable foods for the user
+     ingredientCount - A count of the most preferred ingredients for the user
+     - Returns: None
+     */
+    func makeSearchRequest(cuisineCount: [String: Double], dietLables : [String], dislikedFoods : [String], intolerableFoods : [String], ingredientCount: [String : Double]) {
+        let cuisine = getPrefferedItem(count: cuisineCount, numItems: 2)
+        let ingredients = getPrefferedItem(count: ingredientCount, numItems: 1)
+        let params = [
                       "diet" : reformatString(array: dietLables),
                       "cuisine" : reformatString(array: cuisine),
+                      "includeIngredients" : reformatString(array: ingredients),
                       "excludeIngredients" : reformatString(array: dislikedFoods),
                       "intolerances" : reformatString(array: intolerableFoods),
                       "number" : numOptions,
-                      "offset" : Int(arc4random_uniform(30)),
+                      "offset" : 0,
                       "type" : "main course"] as [String : Any]
+        
         let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
         makeRequest(url: recipeSearchURL, headers: headers, params: params, type: .search)
     }
     
-    func getPreferredCuisine(cuisineCount: [String : Int], numCuisines : Int) -> [String] {
-        let sum = Double(Array(cuisineCount.values).reduce(0, +))
+    /**
+     Do a weighted selection and return a list of the selected items.
+     - Parameters:
+        count - a dictionary mapping the item strings to a double that marks how much it should be weighted
+        numItems - number of weighted selections to be made
+     - Returns: an array of these selected items.
+     */
+    func getPrefferedItem(count: [String : Double], numItems : Int) -> [String] {
+        if count.isEmpty {
+            return [String]()
+        }
+        let sum = Double(Array(count.values).reduce(0, +))
         var cuisineProbabilities = [String : Double]()
-        for (cui, count) in cuisineCount {
+        for (cui, count) in count {
             cuisineProbabilities[cui] = Double(count) / sum
         }
         
         
         var resultArray = [String]()
-        for _ in 0..<numCuisines {
+        for _ in 0..<numItems {
             let rnd = Double.random(in: 0.0..<1.0)
             var accum = 0.0
             for cui in cuisineProbabilities {
@@ -184,27 +277,79 @@ class NewRecipesViewController: RecipeListViewController  {
                 }
             }
         }
-        print("Preferred cuisines: \(resultArray)")
+        print("Preferred item: \(resultArray)")
         return resultArray
         
     }
     
+    /**
+     Joins list of strings together
+     - Parameters: an array of strings
+     - Returns: A string of the list joined by commas
+     */
     func reformatString(array : [String]) -> String {
         return array.joined(separator: ", ")
     }
     
+    /**
+     Parses the data and gets each of the recipes to load.
+     - Parameters: recipeJSON - json of the searched recipe JSON
+     - Returns: None
+     */
     func handleSearchRequest(for recipeJSON : JSON) {
+        if (recipeJSON["totalResults"].intValue < numOptions) {
+            print("Not enough results, getting random recipes")
+            getRandomRecipes()
+            return
+        }
         for i in 0..<numOptions {
             let recipeID = recipeJSON["results"][i]["id"].intValue
             let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
+            let params = ["includeNutrition" : "true"]
             let getURL = getRecipeURL + "/\(recipeID)/information"
-            makeRequest(url: getURL, headers: headers, params: nil, type: .getRecipe)
+            
+            makeRequest(url: getURL, headers: headers, params: params, type: .getRecipe)
             print("recipe list count = \(recipes.count)")
         }
         
     }
-
     
+
+    /**
+     Makes the request for random recipes.
+     - Parameters: None
+     - Returns: None
+     */
+    func getRandomRecipes() {
+        print("loading random recipes")
+        let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
+        let params = ["number" : numOptions,
+                      "tags" : "main course," + reformatString(array: dietLabels)] as [String : Any]
+        makeRequest(url: randomRecipeURL, headers: headers, params: params, type: .getRandom)
+        return
+    }
+    
+    /**
+     Parses the data and gets each of the recipes to load.
+     - Parameters: recipeJSON - json of the searched recipe JSON
+     - Returns: None
+     */
+    func handleGetRandomRequest(for recipeJSON : JSON) {
+        recipes = [Recipe]()
+        print("recipe Nutrition \(recipeJSON["nutrition"].dictionaryValue)")
+        for i in 0..<numOptions {
+            let recipe = recipeJSON["recipes"][i]
+            handleGetRecipeRequest(for: recipe)
+//            print("recipe list count = \(recipes.count)")
+        }
+        tableView.reloadData()
+    }
+
+    /**
+     Parses the data and saves the recipe.
+     - Parameters: recipeJSON - json of the searched recipe JSON
+     - Returns: None
+     */
     func handleGetRecipeRequest(for recipeJSON: JSON) {
         let id = recipeJSON["id"].intValue
         let preparationMinutes = recipeJSON["preparationMinutes"].intValue
@@ -227,7 +372,7 @@ class NewRecipesViewController: RecipeListViewController  {
             let originalName = ingredientJSON["originalName"].stringValue
             let name = ingredientJSON["name"].stringValue
             let unit = ingredientJSON["unit"].stringValue
-            let amount = ingredientJSON["amount"].intValue
+            let amount = ingredientJSON["amount"].doubleValue
             let id = ingredientJSON["id"].intValue
             ingredients.append(Ingredient(originalName: originalName, name: name, unit: unit, amount: amount, id: id))
         }
@@ -244,8 +389,16 @@ class NewRecipesViewController: RecipeListViewController  {
             instructions.append(Instruction(number: number, step: step))
         }
         
+        var nutrients = [Nutrient]()
+        for nutJSON in recipeJSON["nutrition"]["nutrients"].arrayValue {
+            let title = nutJSON["title"].stringValue
+            let amount = nutJSON["amount"].intValue
+            let unit = nutJSON["unit"].stringValue
+            let percentOfDailyNeeds = nutJSON["percentOfDailyNeeds"].doubleValue
+            nutrients.append(Nutrient(name: title, amount: amount, unit: unit, percentOfDailyNeeds: percentOfDailyNeeds))
+        }
         
-        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines)
+        let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines, nutrients: nutrients)
         
         recipes.append(recipe)
         if recipes.count == numOptions {
@@ -256,6 +409,11 @@ class NewRecipesViewController: RecipeListViewController  {
         tableView.reloadData()
     }
     
+    /**
+     Reads the secret plist
+     - Parameters: name - the name of the plist
+     - Returns: the plist optional
+     */
     func getPlist(withName name: String) -> [String : String]? {
         if  let path = Bundle.main.path(forResource: name, ofType: "plist"),
             let xml = FileManager.default.contents(atPath: path)
@@ -266,37 +424,25 @@ class NewRecipesViewController: RecipeListViewController  {
         return nil
     }
 
-    
-
-//    @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
-//        //TODO: Log out the user and send them back to WelcomeViewController
-//        do {
-//            try Auth.auth().signOut()
-//            self.dismiss(animated: true, completion: {})
-//            self.navigationController?.popToRootViewController(animated: true)
-//
-//        } catch {
-//            print("Error signing out")
-//        }
-//    }
-//
-//    @IBAction func refreshPressed(_ sender: UIButton) {
-//        recipes = [Recipe]()
-//        guard let userRef = currentUserRef else {fatalError()}
-//        userRef.getDocument { (document, error) in
-//            print("started")
-//            if let document = document, document.exists {
-//                if let data = document.data() {
-//                    self.loadNewRecipes(with: data)
-//                }
-//            }
-//        }
-//
-//    }
-    
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        currentUserRef?.getDocument(completion: { (document, error) in
+            if let doc = document {
+                if let data = doc.data() {
+                    let vc = segue.destination as! DetailRecipeViewController
+                    vc.userPreferences = data
+                }
+            }
+        })
+    }
     
     //MARK: Firestore methods
+    /**
+     Save the current recipes to the user's firestore document
+     - Parameters: none 
+     - Returns: None
+     */
     func saveCurrentRecipes() {
         guard let userRef = currentUserRef else {fatalError()}
         var currentRecipeIds = [Int]()

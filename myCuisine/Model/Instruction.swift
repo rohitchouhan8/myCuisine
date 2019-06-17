@@ -15,4 +15,8 @@ struct Instruction {
     func toDictionary() -> [String : Any] {
         return ["number" : number, "step" : step]
     }
+    
+    func toDetailItem() -> DetailItem {
+        return DetailItem(main: String(number), detail: step)
+    }
 }

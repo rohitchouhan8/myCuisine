@@ -25,6 +25,8 @@ struct Recipe {
     var instructions : [Instruction]
     var diets : [String]
     var cuisines : [String]
+    var nutrients : [Nutrient]
+    
     let db = Firestore.firestore()
     
     func formatIngredients() -> String {
@@ -64,7 +66,14 @@ struct Recipe {
         for inst in instructions {
             instructionArray.append(inst.toDictionary())
         }
+    
         recipeDict["instructions"] = instructionArray
+        
+        var nutrientArray = [[String : Any]]()
+        for nutrient in nutrients {
+            nutrientArray.append(nutrient.toDictionary())
+        }
+        recipeDict["nutrients"] = nutrientArray
         
         return recipeDict
     }

@@ -18,6 +18,7 @@
 		3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */; };
 		3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD40228D11B100A09F8A /* SignUpViewController.swift */; };
 		3E13BD43228D11BD00A09F8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD42228D11BD00A09F8A /* LoginViewController.swift */; };
+		3E3471F822A1791C0038D0C1 /* DetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3471F722A1791C0038D0C1 /* DetailItem.swift */; };
 		3E4C8D81228E2DAA00CBE1BF /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */; };
 		3E4C8D85228E323A00CBE1BF /* CustomSetupItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C8D83228E323A00CBE1BF /* CustomSetupItemCell.swift */; };
 		3E4C8D86228E323A00CBE1BF /* CustomSetupItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E4C8D84228E323A00CBE1BF /* CustomSetupItemCell.xib */; };
@@ -32,6 +33,10 @@
 		3EAE017E2295EE0500E853A2 /* DetailRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */; };
 		3EDC576222A0604400E78269 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC576122A0604400E78269 /* SettingsTableViewController.swift */; };
 		3EDEA576229A2C6F00D3F0EB /* RecipeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */; };
+		3EEACCFA22B58ACD00651D2B /* DetailItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEACCF822B58ACD00651D2B /* DetailItemView.swift */; };
+		3EEACCFB22B58ACD00651D2B /* DetailItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EEACCF922B58ACD00651D2B /* DetailItemView.xib */; };
+		3EEACCFF22B5EDA800651D2B /* SwiftEntryMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEACCFE22B5EDA800651D2B /* SwiftEntryMessages.swift */; };
+		3EEACD0122B5F3D400651D2B /* Nutrient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEACD0022B5F3D400651D2B /* Nutrient.swift */; };
 		3EF783B622A0E5BE006897C2 /* newAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EF783B522A0E5BE006897C2 /* newAssets.xcassets */; };
 		3EFB9705228F418300A17297 /* DietItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB9704228F418300A17297 /* DietItem.swift */; };
 		3EFB9709228F9F7A00A17297 /* FoodSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */; };
@@ -51,6 +56,7 @@
 		3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		3E13BD40228D11B100A09F8A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3E13BD42228D11BD00A09F8A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3E3471F722A1791C0038D0C1 /* DetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItem.swift; sourceTree = "<group>"; };
 		3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		3E4C8D83228E323A00CBE1BF /* CustomSetupItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSetupItemCell.swift; sourceTree = "<group>"; };
 		3E4C8D84228E323A00CBE1BF /* CustomSetupItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSetupItemCell.xib; sourceTree = "<group>"; };
@@ -65,6 +71,10 @@
 		3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeViewController.swift; sourceTree = "<group>"; };
 		3EDC576122A0604400E78269 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewController.swift; sourceTree = "<group>"; };
+		3EEACCF822B58ACD00651D2B /* DetailItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemView.swift; sourceTree = "<group>"; };
+		3EEACCF922B58ACD00651D2B /* DetailItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailItemView.xib; sourceTree = "<group>"; };
+		3EEACCFE22B5EDA800651D2B /* SwiftEntryMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftEntryMessages.swift; sourceTree = "<group>"; };
+		3EEACD0022B5F3D400651D2B /* Nutrient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nutrient.swift; sourceTree = "<group>"; };
 		3EF783B522A0E5BE006897C2 /* newAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = newAssets.xcassets; sourceTree = "<group>"; };
 		3EFB9704228F418300A17297 /* DietItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietItem.swift; sourceTree = "<group>"; };
 		3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSelectorViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +145,8 @@
 				3E4DAB7722947CB2007CD5F7 /* Recipe.swift */,
 				3E4DAB7922947E1D007CD5F7 /* Ingredient.swift */,
 				3E069AF2229CCE7C007D13A8 /* Instruction.swift */,
+				3E3471F722A1791C0038D0C1 /* DetailItem.swift */,
+				3EEACD0022B5F3D400651D2B /* Nutrient.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -147,6 +159,8 @@
 				3E4C8D82228E31F900CBE1BF /* CustomSetupItem */,
 				3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */,
 				3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */,
+				3EEACCF822B58ACD00651D2B /* DetailItemView.swift */,
+				3EEACCF922B58ACD00651D2B /* DetailItemView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -160,10 +174,11 @@
 				3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */,
 				3EFB9708228F9F7A00A17297 /* FoodSelectorViewController.swift */,
 				3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */,
-				3E13BD40228D11B100A09F8A /* SignUpViewController.swift */,
 				3E13BD42228D11BD00A09F8A /* LoginViewController.swift */,
+				3E13BD40228D11B100A09F8A /* SignUpViewController.swift */,
 				3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */,
 				3EDC576122A0604400E78269 /* SettingsTableViewController.swift */,
+				3EEACCFE22B5EDA800651D2B /* SwiftEntryMessages.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -256,6 +271,7 @@
 			files = (
 				3E13BD32228D077800A09F8A /* LaunchScreen.storyboard in Resources */,
 				3EF783B622A0E5BE006897C2 /* newAssets.xcassets in Resources */,
+				3EEACCFB22B58ACD00651D2B /* DetailItemView.xib in Resources */,
 				3E4C8D86228E323A00CBE1BF /* CustomSetupItemCell.xib in Resources */,
 				3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */,
 				3E767183229B6D3F008F40B2 /* SuccessfulSaveView.xib in Resources */,
@@ -305,9 +321,12 @@
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/DGElasticPullToRefresh/DGElasticPullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/EZYGradientView/EZYGradientView.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/QuickLayout/QuickLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -331,9 +350,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DGElasticPullToRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZYGradientView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QuickLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -360,10 +382,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EEACD0122B5F3D400651D2B /* Nutrient.swift in Sources */,
 				3E4DAB82229488EA007CD5F7 /* RecipeTableViewCell.swift in Sources */,
 				3E13BD43228D11BD00A09F8A /* LoginViewController.swift in Sources */,
 				3EFB9705228F418300A17297 /* DietItem.swift in Sources */,
 				3E13BD2A228D077700A09F8A /* SavedRecipesViewController.swift in Sources */,
+				3EEACCFA22B58ACD00651D2B /* DetailItemView.swift in Sources */,
+				3E3471F822A1791C0038D0C1 /* DetailItem.swift in Sources */,
 				3EAE017E2295EE0500E853A2 /* DetailRecipeViewController.swift in Sources */,
 				3EDEA576229A2C6F00D3F0EB /* RecipeListViewController.swift in Sources */,
 				3E13BD26228D077700A09F8A /* AppDelegate.swift in Sources */,
@@ -374,6 +399,7 @@
 				3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */,
 				3E4DAB7A22947E1D007CD5F7 /* Ingredient.swift in Sources */,
 				3E4C8D81228E2DAA00CBE1BF /* SetupViewController.swift in Sources */,
+				3EEACCFF22B5EDA800651D2B /* SwiftEntryMessages.swift in Sources */,
 				3E767182229B6D3F008F40B2 /* SuccessfulSaveView.swift in Sources */,
 				3E4C8D85228E323A00CBE1BF /* CustomSetupItemCell.swift in Sources */,
 				3E069AF3229CCE7C007D13A8 /* Instruction.swift in Sources */,

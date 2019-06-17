@@ -70,6 +70,7 @@ extension SavedRecipesViewController : SwipeTableViewCellDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! RecipeTableViewCell
         cell.delegate = self
+        
         let recipe = recipes[indexPath.row]
         cell.recipeNameLabel.text = recipe.title
         cell.creditLabel.text = recipe.creditText
@@ -90,6 +91,7 @@ extension SavedRecipesViewController : SwipeTableViewCellDelegate {
                 return ["id" : recipe.id, "date" : Date().timeIntervalSince1970.magnitude] as [String : Any]
             })
             self.currentUserRef?.setData(["savedRecipes" : recipesToSave], merge: true)
+            
             print("delete cell")
         }
         

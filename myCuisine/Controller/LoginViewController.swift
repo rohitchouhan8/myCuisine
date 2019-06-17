@@ -8,9 +8,11 @@
 
 import UIKit
 import Firebase
+import SwiftEntryKit
 import SVProgressHUD
-class LoginViewController: UIViewController {
 
+class LoginViewController: UIViewController {
+    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var backButton: UIButton!
@@ -19,10 +21,17 @@ class LoginViewController: UIViewController {
     let db = Firestore.firestore()
     override func viewDidLoad() {
         super.viewDidLoad()
-        backButton.layer.cornerRadius = 8
-        loginButton.layer.cornerRadius = 8
+        backButton.layer.cornerRadius = 16
+        loginButton.layer.cornerRadius = 16
         // Do any additional setup after loading the view.
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.loginSuccessful()
+            }
+        }
+        
     }
+    
     
 
     /*
@@ -44,29 +53,37 @@ class LoginViewController: UIViewController {
             let password = passwordTextField.text {
             //TODO: Log in the user
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                SVProgressHUD.show()
                 if error != nil {
+                    SwiftEntryMessages.displayUnsuccessfulLogin(errorMessage: error?.localizedDescription ?? "Unsuccesful login")
                     print(error!)
                 } else {
-                    print("Login successful")
-                    let currentUserRef = self.db.collection("users").document(Auth.auth().currentUser!.uid)
-                    currentUserRef.getDocument(completion: { (document, error) in
-                        if let document = document {
-                            if let dataDescription = document.data().map(String.init(describing:)) {
-                                print("Cached document data: \(dataDescription)")
-                                self.performSegue(withIdentifier: "goToMain", sender: self)
-                            } else {
-                                print("data description is nil")
-                                self.performSegue(withIdentifier: "goToSetup", sender: self)
-                            }
-                        } else {
-                            print("Document does not exist in cache")
-                            self.performSegue(withIdentifier: "goToSetup", sender: self)
-                        }
-                    })
+                    self.loginSuccessful()
                     
                 }
                 SVProgressHUD.dismiss()
             }
         }
     }
+    
+    func loginSuccessful() {
+        print("Login successful")
+        let currentUserRef = self.db.collection("users").document(Auth.auth().currentUser!.uid)
+        currentUserRef.getDocument(completion: { (document, error) in
+            if let document = document {
+                if let dataDescription = document.data().map(String.init(describing:)) {
+                    print("Cached document data: \(dataDescription)")
+                    self.performSegue(withIdentifier: "goToMain", sender: self)
+                } else {
+                    print("data description is nil")
+                    self.performSegue(withIdentifier: "goToSetup", sender: self)
+                }
+            } else {
+                print("Document does not exist in cache")
+                self.performSegue(withIdentifier: "goToSetup", sender: self)
+            }
+        })
+    }
+    
+    
 }

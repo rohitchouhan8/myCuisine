@@ -12,7 +12,7 @@ struct Ingredient {
     var originalName : String
     var name : String 
     var unit : String
-    var amount : Int
+    var amount : Double 
     var id : Int
     
     func toDictionary() -> [String : Any] {
@@ -23,5 +23,12 @@ struct Ingredient {
         ingredientDictionary["amount"] = amount
         ingredientDictionary["id"] = id
         return ingredientDictionary
+    }
+    
+    func toDetailItem() -> DetailItem {
+        
+        let amountStr = amount == amount.rounded() ? String(amount.rounded()) : String(format: "%.2f", amount)
+        
+        return DetailItem(main: amountStr + " \(unit)", detail: originalName)
     }
 }

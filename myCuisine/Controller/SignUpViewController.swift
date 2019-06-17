@@ -17,9 +17,12 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+    @IBOutlet weak var reenterTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        backButton.layer.cornerRadius = 16
+        registerButton.layer.cornerRadius = 16
         // Do any additional setup after loading the view.
     }
     
@@ -40,21 +43,27 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func registerButtonPressed(_ sender: UIButton) {
-        SVProgressHUD.show()
+        
         
         //TODO: Set up a new user on our Firbase database
         if let email = emailTextField.text,
+            let rePassword = reenterTextField.text,
             let password = passwordTextField.text {
             print(email)
-            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-                if error != nil {
-                    print(String(error!.localizedDescription))
-                } else {
-                    //success
-                    print("registration successful")
-                    self.performSegue(withIdentifier: "goToSetup", sender: self)
+            if (rePassword == password) {
+                Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+                    SVProgressHUD.show()
+                    if error != nil {
+                        print(String(error!.localizedDescription))
+                    } else {
+                        //success
+                        print("registration successful")
+                        self.performSegue(withIdentifier: "goToSetup", sender: self)
+                    }
+                    SVProgressHUD.dismiss()
                 }
-                SVProgressHUD.dismiss()
+            } else {
+                SwiftEntryMessages.displayUnsuccessfulLogin(errorMessage: "Passwords do not match.")
             }
         }
         

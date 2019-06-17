@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
 
 class SettingsViewController: UIViewController {
     let settings = ["Food Preferences", "Cusines/Diet"]
@@ -43,6 +44,7 @@ class SettingsViewController: UIViewController {
     }
     @IBAction func logoutPressed(_ sender: UIButton) {
         //TODO: Log out the user and send them back to WelcomeViewController
+        LoginManager().logOut()
         do {
             try Auth.auth().signOut()
             performSegue(withIdentifier: "unwindToMain", sender: self)
