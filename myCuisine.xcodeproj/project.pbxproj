@@ -14,7 +14,6 @@
 		3E13BD2A228D077700A09F8A /* SavedRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */; };
 		3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD2B228D077700A09F8A /* Main.storyboard */; };
 		3E13BD32228D077800A09F8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD30228D077800A09F8A /* LaunchScreen.storyboard */; };
-		3E13BD3A228D09B900A09F8A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E13BD39228D09B900A09F8A /* GoogleService-Info.plist */; };
 		3E13BD3F228D119900A09F8A /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */; };
 		3E13BD41228D11B100A09F8A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD40228D11B100A09F8A /* SignUpViewController.swift */; };
 		3E13BD43228D11BD00A09F8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E13BD42228D11BD00A09F8A /* LoginViewController.swift */; };
@@ -22,7 +21,6 @@
 		3E4C8D81228E2DAA00CBE1BF /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */; };
 		3E4C8D85228E323A00CBE1BF /* CustomSetupItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C8D83228E323A00CBE1BF /* CustomSetupItemCell.swift */; };
 		3E4C8D86228E323A00CBE1BF /* CustomSetupItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E4C8D84228E323A00CBE1BF /* CustomSetupItemCell.xib */; };
-		3E4DAB7222930B32007CD5F7 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E4DAB7122930B32007CD5F7 /* Secrets.plist */; };
 		3E4DAB7522937780007CD5F7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E4DAB7422937780007CD5F7 /* Default-568h@2x.png */; };
 		3E4DAB7822947CB2007CD5F7 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4DAB7722947CB2007CD5F7 /* Recipe.swift */; };
 		3E4DAB7A22947E1D007CD5F7 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4DAB7922947E1D007CD5F7 /* Ingredient.swift */; };
@@ -30,6 +28,8 @@
 		3E4DAB83229488EA007CD5F7 /* RecipeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E4DAB81229488EA007CD5F7 /* RecipeTableViewCell.xib */; };
 		3E767182229B6D3F008F40B2 /* SuccessfulSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */; };
 		3E767183229B6D3F008F40B2 /* SuccessfulSaveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */; };
+		3E7AD26322BDA8960008935A /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E7AD26222BDA8960008935A /* Secrets.plist */; };
+		3E7AD26522BDA9000008935A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E7AD26422BDA9000008935A /* GoogleService-Info.plist */; };
 		3EAE017E2295EE0500E853A2 /* DetailRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */; };
 		3EDC576222A0604400E78269 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC576122A0604400E78269 /* SettingsTableViewController.swift */; };
 		3EDEA576229A2C6F00D3F0EB /* RecipeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */; };
@@ -52,7 +52,6 @@
 		3E13BD2C228D077700A09F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E13BD31228D077800A09F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E13BD33228D077800A09F8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3E13BD39228D09B900A09F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		3E13BD40228D11B100A09F8A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3E13BD42228D11BD00A09F8A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -60,7 +59,6 @@
 		3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		3E4C8D83228E323A00CBE1BF /* CustomSetupItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSetupItemCell.swift; sourceTree = "<group>"; };
 		3E4C8D84228E323A00CBE1BF /* CustomSetupItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSetupItemCell.xib; sourceTree = "<group>"; };
-		3E4DAB7122930B32007CD5F7 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		3E4DAB7422937780007CD5F7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3E4DAB7722947CB2007CD5F7 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		3E4DAB7922947E1D007CD5F7 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
@@ -68,6 +66,8 @@
 		3E4DAB81229488EA007CD5F7 /* RecipeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeTableViewCell.xib; sourceTree = "<group>"; };
 		3E767180229B6D3F008F40B2 /* SuccessfulSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessfulSaveView.swift; sourceTree = "<group>"; };
 		3E767181229B6D3F008F40B2 /* SuccessfulSaveView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SuccessfulSaveView.xib; sourceTree = "<group>"; };
+		3E7AD26222BDA8960008935A /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		3E7AD26422BDA9000008935A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeViewController.swift; sourceTree = "<group>"; };
 		3EDC576122A0604400E78269 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewController.swift; sourceTree = "<group>"; };
@@ -131,9 +131,9 @@
 				3E13BD25228D077700A09F8A /* AppDelegate.swift */,
 				3E13BD30228D077800A09F8A /* LaunchScreen.storyboard */,
 				3E13BD33228D077800A09F8A /* Info.plist */,
-				3E13BD39228D09B900A09F8A /* GoogleService-Info.plist */,
-				3E4DAB7122930B32007CD5F7 /* Secrets.plist */,
 				3EF783B522A0E5BE006897C2 /* newAssets.xcassets */,
+				3E7AD26222BDA8960008935A /* Secrets.plist */,
+				3E7AD26422BDA9000008935A /* GoogleService-Info.plist */,
 			);
 			path = myCuisine;
 			sourceTree = "<group>";
@@ -273,12 +273,12 @@
 				3EF783B622A0E5BE006897C2 /* newAssets.xcassets in Resources */,
 				3EEACCFB22B58ACD00651D2B /* DetailItemView.xib in Resources */,
 				3E4C8D86228E323A00CBE1BF /* CustomSetupItemCell.xib in Resources */,
+				3E7AD26322BDA8960008935A /* Secrets.plist in Resources */,
 				3E13BD2D228D077700A09F8A /* Main.storyboard in Resources */,
 				3E767183229B6D3F008F40B2 /* SuccessfulSaveView.xib in Resources */,
-				3E4DAB7222930B32007CD5F7 /* Secrets.plist in Resources */,
+				3E7AD26522BDA9000008935A /* GoogleService-Info.plist in Resources */,
 				3E4DAB83229488EA007CD5F7 /* RecipeTableViewCell.xib in Resources */,
 				3E4DAB7522937780007CD5F7 /* Default-568h@2x.png in Resources */,
-				3E13BD3A228D09B900A09F8A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
