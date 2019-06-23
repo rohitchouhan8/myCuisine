@@ -162,6 +162,7 @@ class RecipeListViewController: UITableViewController {
         }
         
         var nutrients = [Nutrient]()
+        
         for nutFirestore in data["nutrients"] as! [Any] {
             let nutObject = nutFirestore as! [String : Any]
             let name = nutObject["name"] as! String

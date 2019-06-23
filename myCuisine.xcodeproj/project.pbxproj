@@ -169,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				3E13BD27228D077700A09F8A /* NewRecipesViewController.swift */,
+				3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */,
 				3EDEA575229A2C6F00D3F0EB /* RecipeListViewController.swift */,
 				3E13BD29228D077700A09F8A /* SavedRecipesViewController.swift */,
 				3E4C8D80228E2DAA00CBE1BF /* SetupViewController.swift */,
@@ -176,7 +177,6 @@
 				3E13BD3E228D119900A09F8A /* LandingPageViewController.swift */,
 				3E13BD42228D11BD00A09F8A /* LoginViewController.swift */,
 				3E13BD40228D11B100A09F8A /* SignUpViewController.swift */,
-				3EAE017D2295EE0500E853A2 /* DetailRecipeViewController.swift */,
 				3EDC576122A0604400E78269 /* SettingsTableViewController.swift */,
 				3EEACCFE22B5EDA800651D2B /* SwiftEntryMessages.swift */,
 			);
@@ -243,6 +243,7 @@
 				TargetAttributes = {
 					3E13BD21228D077700A09F8A = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -317,6 +318,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-myCuisine/Pods-myCuisine-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BBBadgeBarButtonItem/BBBadgeBarButtonItem.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/DGElasticPullToRefresh/DGElasticPullToRefresh.framework",
@@ -346,6 +348,7 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BBBadgeBarButtonItem.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DGElasticPullToRefresh.framework",
@@ -550,6 +553,7 @@
 			baseConfigurationReference = B538CF8A8D2ECB3A4D8FC3BA /* Pods-myCuisine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XQFF22T3C3;
 				INFOPLIST_FILE = myCuisine/Info.plist;
@@ -559,6 +563,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Chouhan.Rohit.myCuisine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "myCuisine/myCuisine-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -569,6 +575,7 @@
 			baseConfigurationReference = BF190A551438BEE6B70999AC /* Pods-myCuisine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XQFF22T3C3;
 				INFOPLIST_FILE = myCuisine/Info.plist;
@@ -578,6 +585,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Chouhan.Rohit.myCuisine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "myCuisine/myCuisine-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

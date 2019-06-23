@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.2)
+  - BBBadgeBarButtonItem (1.2)
   - BoringSSL-GRPC (0.0.3):
     - BoringSSL-GRPC/Implementation (= 0.0.3)
     - BoringSSL-GRPC/Interface (= 0.0.3)
@@ -142,6 +143,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - BBBadgeBarButtonItem
   - ChameleonFramework
   - DGElasticPullToRefresh
   - EZYGradientView (from `https://github.com/Niphery/EZYGradientView`)
@@ -163,6 +165,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - BBBadgeBarButtonItem
     - BoringSSL-GRPC
     - ChameleonFramework
     - DGElasticPullToRefresh
@@ -205,6 +208,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  BBBadgeBarButtonItem: c2fbca0bff18e21b70defc9438a8a5048008e7ca
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DGElasticPullToRefresh: 28f11a6026302a90f8ffebbc6e24748e584dddd3
@@ -237,6 +241,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
 
-PODFILE CHECKSUM: b45bd25e4d0778399426faa6d30a50b7d0966b10
+PODFILE CHECKSUM: 8b432ebfabcb8faaf8e368625fac8839c6456777
 
 COCOAPODS: 1.6.1

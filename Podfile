@@ -24,6 +24,7 @@ pod 'SwipeCellKit'
 pod 'DGElasticPullToRefresh'
 pod 'FBSDKLoginKit'
 pod 'PromiseKit', '~> 6.8'
+pod 'BBBadgeBarButtonItem'
 end
 
 post_install do |installer|
