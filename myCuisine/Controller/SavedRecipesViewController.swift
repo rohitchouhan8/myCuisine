@@ -56,7 +56,7 @@ class SavedRecipesViewController: RecipeListViewController  {
                             self.tableView.reloadData()
                         }
                     } else {
-                        print("Document does not exist")
+                        print("Document does not exist, getting from Spoonacular")
                     }
                 }
             }

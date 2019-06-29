@@ -68,17 +68,33 @@ class NewRecipesViewController: RecipeListViewController  {
     let numCustomLeftKey = "numCustomLeft"
     let numRandomLeftKey = "numRandomLeft"
     
+    var userData : [String : Any]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Establish the firestore document for the user
         currentUserRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         
         // Get the Spoonacular host and key for networking headers
-        guard let secrets = getPlist(withName: "Secrets") else {fatalError()}
+        guard let secrets = NetworkingUtilFunctions.getPlist(withName: "Secrets") else {fatalError()}
         host = secrets["Host"]!
         key = secrets["Key"]!
         
-
+        currentUserRef?.addSnapshotListener({ (snapshot, error) in
+            guard let document = snapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            self.userData = data
+            print("from snapshot listener")
+            //            self.loadRecipes(override: false)
+            self.updateBadges()
+        })
+        
         let image = UIImage(named: "Whisk")
         let whiskButton = UIButton(type: .custom)
         whiskButton.setImage(image, for: .normal)
@@ -94,26 +110,55 @@ class NewRecipesViewController: RecipeListViewController  {
         
         let refreshButton = UIBarButtonItem(image: UIImage(named: "reload"), style: .plain, target: self, action: #selector(loadRecipes(override:)))
         self.navigationItem.rightBarButtonItems = [ customRecipeButton, randomRecipeButton, refreshButton ] as? [UIBarButtonItem]
-        defaults.addObserver(self, forKeyPath: numCustomLeftKey, options: .new, context: nil)
-        defaults.addObserver(self, forKeyPath: numRandomLeftKey, options: .new, context: nil)
 
+        
+//        currentUserRef?.setData([numCustomLeftKey : 1], merge: true)
+//        currentUserRef?.setData([numRandomLeftKey : 1], merge: true)
+        loadRecipes(override: false)
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == numCustomLeftKey {
-            if let item = self.navigationItem.rightBarButtonItems?[0] as? BBBadgeBarButtonItem {
-                if let change = defaults.object(forKey: numCustomLeftKey) as? Int {
-                    item.badgeValue = String(change)
-                }
-            }
-        } else {
-            if let item = self.navigationItem.rightBarButtonItems?[1] as? BBBadgeBarButtonItem {
-                if let change = defaults.object(forKey: numRandomLeftKey) as? Int {
-                    item.badgeValue = String(change)
+    func setupUserData() {
+        currentUserRef?.getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let data = document.data() {
+                    self.userData = data
+                    self.updateBadges()
                 }
             }
         }
     }
+    
+    func updateBadges() {
+        print("Updating Badges")
+        if let item = self.navigationItem.rightBarButtonItems?[0] as? BBBadgeBarButtonItem {
+            if let change = userData?[numCustomLeftKey] as? Int {
+                item.badgeValue = String(change)
+            }
+        }
+        if let item = self.navigationItem.rightBarButtonItems?[1] as? BBBadgeBarButtonItem {
+            if let change = userData?[numRandomLeftKey] as? Int {
+                item.badgeValue = String(change)
+            }
+        }
+
+
+    }
+    
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        if keyPath == numCustomLeftKey {
+//            if let item = self.navigationItem.rightBarButtonItems?[0] as? BBBadgeBarButtonItem {
+//                if let change = defaults.object(forKey: numCustomLeftKey) as? Int {
+//                    item.badgeValue = String(change)
+//                }
+//            }
+//        } else {
+//            if let item = self.navigationItem.rightBarButtonItems?[1] as? BBBadgeBarButtonItem {
+//                if let change = defaults.object(forKey: numRandomLeftKey) as? Int {
+//                    item.badgeValue = String(change)
+//                }
+//            }
+//        }
+//    }
     
     func createBadge(with button: UIButton, for key: String) -> BBBadgeBarButtonItem? {
 
@@ -122,13 +167,19 @@ class NewRecipesViewController: RecipeListViewController  {
         badgeItem?.badgeOriginY = -15
         badgeItem?.shouldAnimateBadge = true
         badgeItem?.shouldHideBadgeAtZero = true
-        let value = defaults.object(forKey: key) as? Int ?? 0
+        let value = userData?[key] as? Int ?? 0
         badgeItem?.badgeValue = String(value)
         return badgeItem
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         loadRecipes(override: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("Loading recipes now")
+//        loadRecipes(override: false)
+//        tableView.reloadData()
         print("CURRENT USER: \(Auth.auth().currentUser!.uid)")
         
         print("Just loaded new recipes \(justLoadedNewRecipes)")
@@ -145,15 +196,16 @@ class NewRecipesViewController: RecipeListViewController  {
      - Returns: None
      */
     @objc func customRecipesButtonPressed(_ sender: Any) {
-        if let value = defaults.object(forKey: numCustomLeftKey) as? Int  {
+        
+        if let value = userData?[numCustomLeftKey] as? Int  {
             if value > 0 {
-                defaults.set(value - 1, forKey: numCustomLeftKey)
+                currentUserRef?.setData([numCustomLeftKey : value - 1], merge: true)
                 loadRecipes(override: true)
             } else {
                 print("PAY UP")
             }
         } else {
-            defaults.set(0, forKey: numCustomLeftKey)
+            currentUserRef?.setData([numRandomLeftKey : 0], merge: true)
         }
         
     }
@@ -164,15 +216,15 @@ class NewRecipesViewController: RecipeListViewController  {
      - Returns: None
      */
     @objc func randomRecipeButtonPressed(_ sender: Any) {
-        if let value = defaults.object(forKey: numRandomLeftKey) as? Int  {
+        if let value = userData?[numRandomLeftKey] as? Int  {
             if value > 0 {
-                defaults.set(value - 1, forKey: numRandomLeftKey)
+                currentUserRef?.setData([numRandomLeftKey : value - 1], merge: true)
                 getRandomRecipes()
             } else {
                 print("PAY UP")
             }
         } else {
-            defaults.set(0, forKey: numRandomLeftKey)
+            currentUserRef?.setData([numRandomLeftKey : 0], merge: true)
         }
         
     }
@@ -184,41 +236,46 @@ class NewRecipesViewController: RecipeListViewController  {
      */
     @objc func loadRecipes(override: Bool) {
         recipes = [Recipe]()
-        
-        currentUserRef?.getDocument { (document, error) in
-            if let document = document, document.exists {
-                if let data = document.data() {
-                    let recipesLastChanged = data["recipesLastChanged"] as? Double ?? 0.0
-                    if (Date().timeIntervalSince1970.magnitude - recipesLastChanged > self.timeUntilNewRecipes) {
-                        print("Loading new recipes...")
-                        self.getAndUpdateNumberSpins(for: self.numCustomLeftKey)
-                        self.getAndUpdateNumberSpins(for: self.numRandomLeftKey)
-                        self.loadNewRecipes(with: data)
-                        self.justLoadedNewRecipes = true
-                    } else if override {
-                        self.loadNewRecipes(with: data)
-                        self.justLoadedNewRecipes = true
-                    } else {
-                        print("Loading current recipes...")
-                        self.loadCurrentRecipes(with: data)
-                    }
-                }
-            } else {
-                print("User document does not exist")
-            }
-        }
 
+        if let data = userData {
+            let recipesLastChanged = data["recipesLastChanged"] as? Double ?? 0.0
+            if (Date().timeIntervalSince1970.magnitude - recipesLastChanged > self.timeUntilNewRecipes) {
+                print("Loading new recipes...")
+                self.getAndUpdateNumberSpins(for: self.numCustomLeftKey)
+                self.getAndUpdateNumberSpins(for: self.numRandomLeftKey)
+                self.loadNewRecipes(with: data)
+                self.justLoadedNewRecipes = true
+            } else if override {
+                self.loadNewRecipes(with: data)
+                self.justLoadedNewRecipes = true
+            } else {
+                print("Loading current recipes...")
+                self.loadCurrentRecipes(with: data)
+            }
+        } else {
+            print("User document does not exist")
+        }
         
     }
     
     func getAndUpdateNumberSpins(for key: String) {
-        if let numberOfCustomSpins = defaults.object(forKey: key) as? Int {
-            if numberOfCustomSpins < 5 {
-                defaults.set(numberOfCustomSpins + 1, forKey: key)
+        if let data = userData {
+            if let numSpins = data[key] as? Int {
+                if numSpins < 5 {
+//                    currentUserRef?.setValue(numSpins + 1, forKey: key)
+                    currentUserRef?.setData([key : numSpins + 1], merge: true)
+                }
+            } else {
+                currentUserRef?.setData([key : 1], merge: true)
             }
-        } else {
-            defaults.set(1, forKey: key)
         }
+//        if let numberOfCustomSpins = defaults.object(forKey: key) as? Int {
+//            if numberOfCustomSpins < 5 {
+//                defaults.set(numberOfCustomSpins + 1, forKey: key)
+//            }
+//        } else {
+//            defaults.set(1, forKey: key)
+//        }
         
     }
     
@@ -294,7 +351,15 @@ class NewRecipesViewController: RecipeListViewController  {
                 case .getRecipe:
                     print("recipe request \(String(describing: response.request))")
 //                    print("recipe info \(recipeJSON)")
-                    self.handleGetRecipeRequest(for: recipeJSON)
+                    NetworkingUtilFunctions.handleGetRecipeRequest(for: recipeJSON).done({ (recipe) in
+                        self.recipes.append(recipe)
+                        print("Recipe count \(self.recipes.count)")
+                        if self.recipes.count == self.numOptions {
+                            NetworkingUtilFunctions.saveCurrentRecipes(recipes: self.recipes)
+                            self.tableView.reloadData()
+                        }
+                        
+                    })
                     break
                 case .getRandom:
                     self.handleGetRandomRequest(for: recipeJSON)
@@ -304,7 +369,7 @@ class NewRecipesViewController: RecipeListViewController  {
                 print("Error \(response.result.error!)")
             }
         }
-        print(request)
+
     }
     
     /**
@@ -385,6 +450,7 @@ class NewRecipesViewController: RecipeListViewController  {
      - Returns: None
      */
     func handleSearchRequest(for recipeJSON : JSON) {
+        recipes = [Recipe]()
         if (recipeJSON["totalResults"].intValue < numOptions) {
             print("Not enough results, getting random recipes")
             getRandomRecipes()
@@ -397,7 +463,6 @@ class NewRecipesViewController: RecipeListViewController  {
             let getURL = getRecipeURL + "/\(recipeID)/information"
             
             makeRequest(url: getURL, headers: headers, params: params, type: .getRecipe)
-            print("recipe list count = \(recipes.count)")
         }
         
     }
@@ -427,177 +492,30 @@ class NewRecipesViewController: RecipeListViewController  {
         print("recipe Nutrition \(recipeJSON["nutrition"].dictionaryValue)")
         for i in 0..<numOptions {
             let recipe = recipeJSON["recipes"][i]
-            handleGetRecipeRequest(for: recipe)
+            NetworkingUtilFunctions.handleGetRecipeRequest(for: recipe).done { (rec) in
+                self.recipes.append(rec)
+                if self.recipes.count == self.numOptions {
+                    NetworkingUtilFunctions.saveCurrentRecipes(recipes: self.recipes)
+                }
+                self.tableView.reloadData()
+            }
 //            print("recipe list count = \(recipes.count)")
         }
         tableView.reloadData()
     }
 
-    /**
-     Parses the data and saves the recipe.
-     - Parameters: recipeJSON - json of the searched recipe JSON
-     - Returns: None
-     */
-    func handleGetRecipeRequest(for recipeJSON: JSON) {
-        let id = recipeJSON["id"].intValue
-        let preparationMinutes = recipeJSON["preparationMinutes"].intValue
-        let cookingMinutes = recipeJSON["cookingMinutes"].intValue
-        let readyInMinutes = recipeJSON["readyInMinutes"].intValue
-        let aggregateLikes = recipeJSON["aggregateLikes"].intValue
-        let servings = recipeJSON["servings"].intValue
-        let healthScore = recipeJSON["healthScore"].intValue
-        let sourceURL = recipeJSON["sourceUrl"].stringValue
-        let imageURL = recipeJSON["image"].stringValue
-        let creditText = recipeJSON["creditsText"].stringValue
-        let title = recipeJSON["title"].stringValue
-//        let instructions = recipeJSON["instructions"].stringValue
-        var diets = [String]()
-        for diet in recipeJSON["diets"].arrayValue {
-            diets.append(diet.stringValue)
-        }
-        var ingredients = [Ingredient]()
-        for ingredientJSON in recipeJSON["extendedIngredients"].arrayValue {
-            let originalName = ingredientJSON["originalName"].stringValue
-            let name = ingredientJSON["name"].stringValue
-            let unit = ingredientJSON["unit"].stringValue
-            let amount = ingredientJSON["amount"].doubleValue
-            let id = ingredientJSON["id"].intValue
-            ingredients.append(Ingredient(originalName: originalName, name: name, unit: unit, amount: amount, id: id))
-        }
-        
-        var cuisines = [String]()
-        for cuisine in recipeJSON["cuisines"].arrayValue {
-            cuisines.append(cuisine.stringValue)
-        }
-        
-        var instructions = [Instruction]()
-        for instJSON in recipeJSON["analyzedInstructions"][0]["steps"].arrayValue {
-            let number = instJSON["number"].intValue
-            let step = instJSON["step"].stringValue
-            instructions.append(Instruction(number: number, step: step))
-        }
-        
-        var nutrients = [Nutrient]()
-        if let nutrientsJSON = recipeJSON["nutrition"]["nutrients"].array {
-            for nutJSON in nutrientsJSON {
-                let title = nutJSON["title"].stringValue
-                let amount = nutJSON["amount"].intValue
-                let unit = nutJSON["unit"].stringValue
-                let percentOfDailyNeeds = nutJSON["percentOfDailyNeeds"].doubleValue
-                nutrients.append(Nutrient(name: title, amount: amount, unit: unit, percentOfDailyNeeds: percentOfDailyNeeds))
-            }
-            let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines, nutrients: nutrients)
-            
-            recipes.append(recipe)
-            if recipes.count == numOptions {
-                saveCurrentRecipes()
-            }
-            recipe.saveRecipe()
-            //        print("SAVED RECIPE: \(recipe)")
-            tableView.reloadData()
-        } else {
-            getNutrition(for: id).done { (nutrientsFromPromise) in
-                print("Got nutrition")
-                nutrients = nutrientsFromPromise
-                let recipe = Recipe(id: id, preparationMinutes: preparationMinutes, cookingMinutes: cookingMinutes, readyInMinutes: readyInMinutes, aggregateLikes: aggregateLikes, healthScore: healthScore, servings: servings, sourceURL: sourceURL, imageURL: imageURL, creditText: creditText, title: title, ingredients: ingredients, instructions: instructions, diets: diets, cuisines: cuisines, nutrients: nutrients)
-                
-                self.recipes.append(recipe)
-                if self.recipes.count == self.numOptions {
-                    self.saveCurrentRecipes()
-                }
-                recipe.saveRecipe()
-                //        print("SAVED RECIPE: \(recipe)")
-                self.tableView.reloadData()
-            }
-            
-        }
-        
-
-    }
-    
-    func getNutrition(for recipeId: Int) -> Promise<[Nutrient]> {
-        print("Getting nutrition")
-        let url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/\(recipeId)/nutritionWidget.json"
-        let headers = ["X-RapidAPI-Host" : host!, "X-RapidAPI-Key" : key!]
-        return Promise<[Nutrient]> { seal in
-            Alamofire.request(url, method: .get, headers: headers).responseJSON { (response) in
-                if response.result.isSuccess {
-                    var nutrients = [Nutrient]()
-                    let json = JSON(response.result.value!)
-                    print("json \(json)")
-                    for bad in json["bad"].arrayValue {
-                        let title = bad["title"].stringValue
-                        let amount = bad["amount"].intValue
-                        let unit = bad["unit"].stringValue
-                        let percentOfDailyNeeds = bad["percentOfDailyNeeds"].doubleValue
-                        nutrients.append(Nutrient(name: title, amount: amount, unit: unit, percentOfDailyNeeds: percentOfDailyNeeds))
-                    }
-                    for good in json["good"].arrayValue {
-                        let title = good["title"].stringValue
-                        let amount = good["amount"].intValue
-                        let unit = good["unit"].stringValue
-                        let percentOfDailyNeeds = good["percentOfDailyNeeds"].doubleValue
-                        nutrients.append(Nutrient(name: title, amount: amount, unit: unit, percentOfDailyNeeds: percentOfDailyNeeds))
-                    }
-                    
-                    seal.fulfill(nutrients)
-                    
-                    
-                } else {
-                    print("Error \(response.result.error!)")
-                    seal.reject(response.result.error!)
-                }
-            }
-        }
-            
-        
-        
-    }
-    
-    /**
-     Reads the secret plist
-     - Parameters: name - the name of the plist
-     - Returns: the plist optional
-     */
-    func getPlist(withName name: String) -> [String : String]? {
-        if  let path = Bundle.main.path(forResource: name, ofType: "plist"),
-            let xml = FileManager.default.contents(atPath: path)
-        {
-            return (try? PropertyListSerialization.propertyList(from: xml, options: .mutableContainersAndLeaves, format: nil)) as? [String : String]
-        }
-        
-        return nil
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        
-        currentUserRef?.getDocument(completion: { (document, error) in
-            if let doc = document {
-                if let data = doc.data() {
-                    let vc = segue.destination as! DetailRecipeViewController
-                    vc.userPreferences = data
-                }
-            }
-        })
+
+        if let data = userData {
+            let vc = segue.destination as! DetailRecipeViewController
+            vc.userPreferences = data
+        }
+            
+
     }
     
-    //MARK: Firestore methods
-    /**
-     Save the current recipes to the user's firestore document
-     - Parameters: none 
-     - Returns: None
-     */
-    func saveCurrentRecipes() {
-        guard let userRef = currentUserRef else {fatalError()}
-        var currentRecipeIds = [Int]()
-        for recipe in recipes {
-            currentRecipeIds.append(recipe.id)
-        }
-        userRef.setData(["currentRecipes" : currentRecipeIds], merge: true)
-        userRef.setData(["recipesLastChanged" : Date().timeIntervalSince1970.magnitude], merge: true)
-        
-    }
+
     
 
 }
